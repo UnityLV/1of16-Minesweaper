@@ -23,6 +23,7 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver += OpenAllBombs;
             plate.GameOver += BlockAllPlates;
             plate.GameOver += FindAllFalseBombMark;
+            plate.Win += CheckWin;
         }
 
     }
@@ -34,7 +35,17 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver -= OpenAllBombs;
             plate.GameOver -= BlockAllPlates;
             plate.GameOver -= FindAllFalseBombMark;
+            plate.Win -= CheckWin;
         }                      
+    }
+    private void CheckWin()
+    {
+        int counter = 0;
+        foreach (var plate in _plates)        
+            if (plate.IsBomb && plate.IsBombMark)             
+                counter++;
+        if (counter == _bombAmount)
+            _plates[0, 0].WinInGame();
     }
     private void FindAllFalseBombMark()
     {
@@ -45,7 +56,7 @@ public class PlatesGrid : MonoBehaviour
     private void BlockAllPlates()
     {
         foreach (var plate in _plates)        
-            plate.SetGameOver();        
+            plate.SetEndOfGAme();        
     }
     private void OpenAllBombs()
     {

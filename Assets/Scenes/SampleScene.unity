@@ -534,7 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   with: 10
   hight: 10
-  _bombAmount: 10
+  _bombAmount: 4
   _generatePlatesField: {fileID: 1640243972}
 --- !u!224 &1640243968
 RectTransform:
