@@ -247,3 +247,4 @@ MonoBehaviour:
   _DefaultSprite: {fileID: 21300000, guid: fcfc96f0ab127844a8606c8f4e8dc480, type: 3}
   _firstBomb: {fileID: 21300000, guid: 510bab61cedc55e46b195039e0728891, type: 3}
   _falseBombMark: {fileID: 21300000, guid: a44116ec2fa8191458633333eb2602ac, type: 3}
+  _bin: {fileID: 11400000, guid: 55fe3eb150f3cce4c88afeb00cfc57e6, type: 2}

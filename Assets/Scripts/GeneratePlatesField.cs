@@ -6,7 +6,7 @@ public class GeneratePlatesField : MonoBehaviour
 {
     [SerializeField] private Plates _platePrefab;
     [SerializeField] private GenerateBombs _GenerateBombs;
-    [SerializeField] private GeneratorNumbers _GenerateNumbers;
+    [SerializeField] private FillPlates _GenerateNumbers;
     
 
     private Plates SpawnSinglePlate(int x, int y)
@@ -23,17 +23,17 @@ public class GeneratePlatesField : MonoBehaviour
                 plates[x, y] = SpawnSinglePlate(x, y);
 
         int[,] bombMap = _GenerateBombs.CreateBombsMap(plates, _bombAmount);
-        int[,] numberMap = _GenerateNumbers.CreateNumbersMap(bombMap);
+        FillingPlates[,] numberMap = _GenerateNumbers.GetFillingMap(bombMap);
 
-        InitAllPlates(bombMap, numberMap, plates);
+        InitAllPlates(numberMap, plates);
 
         return plates;
     }
-    private void InitAllPlates(int [,] bombMap,int [,] numberMap, Plates[,] plates)
+    private void InitAllPlates(FillingPlates[,] numberMap, Plates[,] plates)
     {
         for (int i = 0; i < plates.GetLength(0); i++)
             for (int j = 0; j < plates.GetLength(1); j++)
-                plates[i, j].Init(bombMap[i, j] == -1, numberMap[i, j], new Vector2Int(i, j));
+                plates[i, j].Init(numberMap[i, j], new Vector2Int(i, j));
     } 
 
 }

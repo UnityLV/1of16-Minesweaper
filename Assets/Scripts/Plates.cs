@@ -12,13 +12,12 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     private bool _isCheked;
     private bool _isBombMark;
     private bool _endOfGame;
-    private bool _isFalseBombMark;
-    private bool _isWin;
+    private bool _isFalseBombMark;    
     public event UnityAction<bool,int> LeftClick;
     public event UnityAction<bool> RightClick;
     public event UnityAction<Vector2Int> Opened;
     public event UnityAction GameOver;
-    public event UnityAction Win;
+    public event UnityAction Winable;
     public event UnityAction FirstBomb;
     public event UnityAction FalseBombMark;
     public Vector2Int Position { get; private set; }
@@ -27,11 +26,11 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     public bool IsBomb => _isBomb;
     public bool IsFalseBombMark => _isFalseBombMark;
     public int NearbyBobmAmount => _nearbyBobmAmount;
-    public void Init(bool isBomb,int nearbyBobmAmount,Vector2Int position)
+    public void Init(FillingPlates nearbyBobmAmount,Vector2Int position)
     {
         Position = position;
-        _isBomb = isBomb;
-        _nearbyBobmAmount = nearbyBobmAmount;
+        _isBomb = nearbyBobmAmount.IsBomb;
+        _nearbyBobmAmount = nearbyBobmAmount.Number;
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -42,29 +41,26 @@ public class Plates : MonoBehaviour, IPointerClickHandler
                 Open();
                 if (_isBomb == true)
                 {
-                    StopedGame();
+                    SetLooseInGame();
                 }         
                 if (_nearbyBobmAmount == 0)
                     Opened?.Invoke(Position);
             }
-            Win?.Invoke();
+            Winable?.Invoke();
         }
         if (eventData.pointerId == -2 && !_isOpen && !_endOfGame)
         {
             RightClick?.Invoke(_isBombMark);
             _isBombMark = !_isBombMark;
-            Win?.Invoke();
-        }
-        
-        
-        
+            Winable?.Invoke();
+        }     
     }
     public void MarkToOpen()
     {        
         _isCheked = true;
         Open();
     }
-
+    public void OpenedIvent() => Opened?.Invoke(Position);
     public void Open()
     {
         LeftClick?.Invoke(_isBomb, _nearbyBobmAmount);
@@ -72,17 +68,11 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     }
     public void SetEndOfGAme() => _endOfGame = true;
     public void SetFalseBombMark() => FalseBombMark?.Invoke();
-    private void StopedGame()
+    private void SetLooseInGame()
     {
         Debug.Log("Game Ower");       
         GameOver?.Invoke();
         FirstBomb?.Invoke();
-    }
-    public void SetWinInGame() => _isWin = true;
-    public void WinInGame()
-    {
-        Debug.Log("Win!!!");        
-        GameOver?.Invoke();
-    }
+    }   
    
 }

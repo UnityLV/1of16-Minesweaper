@@ -13,6 +13,7 @@ public sealed class PlatesView : MonoBehaviour
     [SerializeField] private Sprite _DefaultSprite;
     [SerializeField] private Sprite _firstBomb;
     [SerializeField] private Sprite _falseBombMark;
+    [SerializeField] private ColorBin _bin;
 
     private void OnEnable()
     {
@@ -41,6 +42,7 @@ public sealed class PlatesView : MonoBehaviour
     private void OnClickLeft(bool isBomb, int nearbyBobmAmount)
     {        
         _text.text = isBomb ? string.Empty:nearbyBobmAmount.ToString();
+        _text.color = _bin[nearbyBobmAmount];
         _image.sprite = isBomb ? _openImageBobm : _openImage;
     }
     private void OnClickRight(bool BombMark)
