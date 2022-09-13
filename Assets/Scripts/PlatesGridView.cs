@@ -11,13 +11,13 @@ public class PlatesGridView : MonoBehaviour
     private void OnEnable()
     {
         _grid.GameOver += OnGameOver;
-        _grid.StartGame += OnGameStart;
+        _grid.StartedGame += OnGameStart;
     }
 
     private void OnDisable()
     {
         _grid.GameOver -= OnGameOver;
-        _grid.StartGame -= OnGameStart;
+        _grid.StartedGame -= OnGameStart;
     }
 
     private void OnGameStart()

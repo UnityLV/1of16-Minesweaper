@@ -31,7 +31,7 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.pointerId==-1 && !IsBombMark && !_endOfGame)
+        if (eventData.pointerId == -1 && !IsBombMark && !_endOfGame) 
         {
             if (_isOpen == false)
             {

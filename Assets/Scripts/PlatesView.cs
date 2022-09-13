@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 
+
 public sealed class PlatesView : MonoBehaviour
 {
     [SerializeField] private Plates _plate;
@@ -15,6 +16,8 @@ public sealed class PlatesView : MonoBehaviour
     [SerializeField] private Sprite _falseBombMark;
     [SerializeField] private ColorBin _bin;
 
+
+    
     private void OnEnable()
     {
         _plate.LeftClick += OnClickLeft;

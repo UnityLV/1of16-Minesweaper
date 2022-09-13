@@ -12,11 +12,11 @@ public class PlatesGrid : MonoBehaviour
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
-    private Plates[,] _plates;
-   
+    private Plates[,] _plates;   
 
     public event UnityAction GameOver;
-    public event UnityAction StartGame;    
+    public event UnityAction StartedGame;
+    public event UnityAction<Vector3> FindetStartPosition;    
 
     private void SetSize()
     {
@@ -30,7 +30,7 @@ public class PlatesGrid : MonoBehaviour
         SetSize();
         _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, with, hight);
         Subscribe();
-        StartGame?.Invoke();
+        StartedGame?.Invoke();
         StartCoroutine(WaitAndOpenRandomZeros(0.2f));
     }
 
@@ -128,10 +128,11 @@ public class PlatesGrid : MonoBehaviour
                 return;
             }
 
-        } while ((_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb));
+        } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
         
         _plates[x, y].Open();
         _plates[x, y].OpenedIvent();
+        FindetStartPosition?.Invoke(_plates[x, y].transform.position);
 
     }
 
