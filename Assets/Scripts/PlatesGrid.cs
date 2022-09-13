@@ -80,7 +80,7 @@ public class PlatesGrid : MonoBehaviour
     private IEnumerator WaitAndOpenRandomZeros(float waitTime)
     {        
         yield return new WaitForSeconds(waitTime);
-        OpenRandomZeros();        
+        TryOpenRandomZeros();        
     }
 
     private IEnumerator OpenNeerbyZerosSlow(int x, int y)
@@ -113,15 +113,22 @@ public class PlatesGrid : MonoBehaviour
                         }
     }
 
-    private void OpenRandomZeros()
+    private void TryOpenRandomZeros()
     {
         int x, y;
+        int maxTryAmount = with * hight;
         do
         {
            x = Random.Range(0, with);
            y = Random.Range(0, hight);
+            maxTryAmount--;
 
-        } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
+            if (maxTryAmount < 0)
+            {
+                return;
+            }
+
+        } while ((_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb));
         
         _plates[x, y].Open();
         _plates[x, y].OpenedIvent();
