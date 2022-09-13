@@ -2,7 +2,7 @@
 
 public class PlatesGridView : MonoBehaviour
 {
-    [SerializeField] private PlatesGrid _grid;
+    [SerializeField] private PlatesGrid _grid;    
     [SerializeField] private RectTransform _restartButton;
     [SerializeField] private RectTransform _startButton;
     [SerializeField] private RectTransform _settingsMenu;

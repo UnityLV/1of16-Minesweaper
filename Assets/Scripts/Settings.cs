@@ -11,8 +11,7 @@ public class Settings : MonoBehaviour
 	[field: SerializeField] public int BombsAmount { get; private set; } = 10;
 
 	public event UnityAction<int> BombsAmountChanged;
-	public event UnityAction<int> MapSizeChanged;
-	
+	public event UnityAction<int> MapSizeChanged;	
 	
 
     private void Awake()
