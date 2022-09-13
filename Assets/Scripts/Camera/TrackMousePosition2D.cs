@@ -23,7 +23,7 @@ public class TrackMousePosition2D : MonoBehaviour
         {
             transform.Translate(Vector2.left * Time.deltaTime * _speed);
         }
-        if (Input.mousePosition.y >= Screen.width - _screenDistanceToMove)
+        if (Input.mousePosition.y >= Screen.height - _screenDistanceToMove)
         {
             transform.Translate(Vector2.up * Time.deltaTime * _speed);
         }

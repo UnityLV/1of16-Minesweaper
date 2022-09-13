@@ -16,6 +16,7 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     public event UnityAction Winable;
     public event UnityAction FirstBomb;
     public event UnityAction FalseBombMark;
+    public event UnityAction<Vector2Int> PressedOnNumber;
     public Vector2Int Position { get; private set; }
     public bool IsCheked { get; private set; }
     public bool IsBombMark { get; private set; }
@@ -31,19 +32,9 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.pointerId == -1 && !IsBombMark && !_endOfGame) 
+        if (eventData.pointerId == -1 && !IsBombMark && !_endOfGame)
         {
-            if (_isOpen == false)
-            {
-                Open();
-                if (IsBomb == true)
-                {
-                    SetLooseInGame();
-                }         
-                if (NearbyBobmAmount == 0)
-                    Opened?.Invoke(Position);
-            }
-            Winable?.Invoke();
+            PressingLeftMouseButton();
         }
         if (eventData.pointerId == -2 && !_isOpen && !_endOfGame)
         {
@@ -52,6 +43,28 @@ public class Plates : MonoBehaviour, IPointerClickHandler
             Winable?.Invoke();
         }     
     }
+
+    private void PressingLeftMouseButton()
+    {
+        if (_isOpen == false)
+        {
+            Open();
+            if (IsBomb == true)
+            {
+                SetLooseInGame();
+            }
+            if (NearbyBobmAmount == 0)
+                Opened?.Invoke(Position);
+        }
+        else
+        {
+            if (NearbyBobmAmount > 0)
+            {
+                PressedOnNumber?.Invoke(Position);
+            }
+        }        
+    }
+
     public void MarkToOpen()
     {        
         IsCheked = true;
@@ -62,6 +75,24 @@ public class Plates : MonoBehaviour, IPointerClickHandler
     {
         LeftClick?.Invoke(IsBomb, NearbyBobmAmount);
         _isOpen = true;
+    }
+
+    public void SimulatePressingLeft()
+    {
+        if (!IsBombMark && !_endOfGame)
+        {
+            if (_isOpen == false)
+            {
+                Open();
+                if (IsBomb == true)
+                {
+                    SetLooseInGame();
+                }
+                if (NearbyBobmAmount == 0)
+                    Opened?.Invoke(Position);
+            }
+        }
+        
     }
     public void SetEndOfGAme() => _endOfGame = true;
     public void SetFalseBombMark() => FalseBombMark?.Invoke();

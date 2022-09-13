@@ -59,9 +59,9 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver += FindAllFalseBombMark;
             plate.GameOver += OnGameOver;      
             plate.Winable += CheckWin;
+            plate.PressedOnNumber += OnPressedOnNumber;
         }
     }
-
     
 
     private void UnSubscribe()
@@ -74,6 +74,7 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver -= FindAllFalseBombMark;
             plate.GameOver -= OnGameOver;
             plate.Winable -= CheckWin;
+            plate.PressedOnNumber -= OnPressedOnNumber;
         }
     }
 
@@ -148,6 +149,23 @@ public class PlatesGrid : MonoBehaviour
         GameOver?.Invoke();
     }
 
+    private void OnPressedOnNumber(Vector2Int position)
+    {
+        if (GetNearbyMarkAmount(position.x, position.y) ==
+            _plates[position.x, position.y].NearbyBobmAmount)
+        {
+            TryOpenNearby(position.x, position.y);
+        }
+    }
+
+    private void TryOpenNearby(int x, int y)
+    {        
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                if (IsInside(i + x, j + y) && _plates[i + x, j + y].IsBombMark == false)
+                    _plates[i + x, j + y].SimulatePressingLeft();        
+    }
+
     private void CheckWin()
     {
         int counter = 0;
@@ -201,6 +219,19 @@ public class PlatesGrid : MonoBehaviour
             for (int j = -1; j <= 1; j++)
                 if (IsInside(i + x, j + y) && _plates[i + x, j + y].IsBombMark == false)
                     _plates[i + x, j + y].Open();         
+    }    
+
+    private int GetNearbyMarkAmount(int x, int y)
+    {
+        int counter = 0;
+
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                if (IsInside(i + x, j + y))
+                    if (_plates[i + x, j + y].IsBombMark)
+                        counter++;
+
+        return counter;
     }
 
     private bool IsInside(int x, int y) =>
