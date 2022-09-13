@@ -9,12 +9,6 @@ public class GeneratePlatesField : MonoBehaviour
     [SerializeField] private FillPlates _GenerateNumbers;
     
 
-    private Plates SpawnSinglePlate(int x, int y)
-    {
-        Vector3 position = new Vector3(x, y, 0);
-        Plates plate = Instantiate(_platePrefab, position, Quaternion.identity, transform);
-        return plate;
-    }
     public Plates[,] SpawnPlates(int _bombAmount,int hight = 10, int with = 10)
     {
         Plates[,] plates = new Plates[hight, with];
@@ -28,6 +22,12 @@ public class GeneratePlatesField : MonoBehaviour
         InitAllPlates(numberMap, plates);
 
         return plates;
+    }
+    private Plates SpawnSinglePlate(int x, int y)
+    {
+        Vector3 position = new Vector3(x, y, 0);
+        Plates plate = Instantiate(_platePrefab, position, Quaternion.identity, transform);
+        return plate;
     }
     private void InitAllPlates(FillingPlates[,] numberMap, Plates[,] plates)
     {

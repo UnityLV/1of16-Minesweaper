@@ -1,28 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
 public class PlatesGrid : MonoBehaviour
 {
-    [SerializeField] int with = 10;
-    [SerializeField] int hight = 10;        
-    [SerializeField] private int _bombAmount=20;
+    [SerializeField] private int with;
+    [SerializeField] private int hight;
+    [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
+    [SerializeField] private GridLayoutGroup _gridLayout;
     private Plates[,] _plates;
+   
 
-    private void Update()
+    public event UnityAction GameOver;
+    public event UnityAction StartGame;    
+
+    private void SetSize()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            OpenRandomZeros();
-        }
+        with = _settings.MapSize;
+        hight = _settings.MapSize;
+        _gridLayout.constraintCount = _settings.MapSize;
     }
 
-    void Awake()
-    {        
-        _plates = _generatePlatesField.SpawnPlates(_bombAmount, with, hight);
+    public void SpawnGrid()
+    {
+        SetSize();
+        _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, with, hight);
+        Subscribe();
+        StartGame?.Invoke();
+        StartCoroutine(WaitAndOpenRandomZeros(0.2f));
     }
-    private void OnEnable()
+
+    public void ReSpawnGrid()
+    {
+        Clear();        
+        SpawnGrid();
+    }
+
+    public void Clear()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        UnSubscribe();
+    }
+
+    private void Subscribe()
     {
         foreach (var plate in _plates)
         {
@@ -30,11 +57,14 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver += OpenAllBombs;
             plate.GameOver += BlockAllPlates;
             plate.GameOver += FindAllFalseBombMark;
+            plate.GameOver += OnGameOver;      
             plate.Winable += CheckWin;
         }
-
     }
-    private void OnDisable()
+
+    
+
+    private void UnSubscribe()
     {
         foreach (var plate in _plates)
         {
@@ -42,9 +72,33 @@ public class PlatesGrid : MonoBehaviour
             plate.GameOver -= OpenAllBombs;
             plate.GameOver -= BlockAllPlates;
             plate.GameOver -= FindAllFalseBombMark;
+            plate.GameOver -= OnGameOver;
             plate.Winable -= CheckWin;
-        }                      
+        }
     }
+
+    private IEnumerator WaitAndOpenRandomZeros(float waitTime)
+    {        
+        yield return new WaitForSeconds(waitTime);
+        OpenRandomZeros();        
+    }
+
+    private IEnumerator OpenNeerbyZerosSlow(int x, int y)
+    {
+        yield return null;
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                if (IsInside(i + x, j + y))
+                    if (_plates[i + x, j + y].NearbyBobmAmount == 0)
+                        if (_plates[i + x, j + y].IsCheked == false && _plates[i + x, j + y].IsBombMark == false)
+                        {                                                       
+                            _plates[i + x, j + y].MarkToOpen();
+                            ShowPlates(i + x, j + y);
+                            yield return OpenNeerbyZerosSlow(i + x, j + y);
+                        }        
+        
+    }
+
     private void OpenNeerbyZeros(int x, int y)
     {
         for (int i = -1; i <= 1; i++)
@@ -67,7 +121,8 @@ public class PlatesGrid : MonoBehaviour
            x = Random.Range(0, with);
            y = Random.Range(0, hight);
 
-        } while (_plates[x,y].NearbyBobmAmount>0 && _plates[x,y].IsBomb);
+        } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
+        
         _plates[x, y].Open();
         _plates[x, y].OpenedIvent();
 
@@ -77,8 +132,14 @@ public class PlatesGrid : MonoBehaviour
     {
         BlockAllPlates();
         OpenAllNoBombs();
-        Debug.Log("Win In Game");
+        OnGameOver();
     }
+
+    private void OnGameOver()
+    {
+        GameOver?.Invoke();
+    }
+
     private void CheckWin()
     {
         int counter = 0;
@@ -90,7 +151,7 @@ public class PlatesGrid : MonoBehaviour
                 counter--;
         }  
             
-        if (counter == _bombAmount)
+        if (counter == _settings.BombsAmount)
             SetWinInGame();
     }
     
@@ -117,15 +178,14 @@ public class PlatesGrid : MonoBehaviour
         x = position.x;
         y = position.y;
 
-        OpenNeerbyZeros(x, y);      
+        StartCoroutine(OpenNeerbyZerosSlow(x, y));            
     }
     private void OpenAllNoBombs()
     {
         foreach (var plate in _plates)        
             if (!plate.IsBomb)            
                 plate.Open(); 
-    }
-    
+    }    
    
     private void ShowPlates(int x, int y)
     {
@@ -134,6 +194,7 @@ public class PlatesGrid : MonoBehaviour
                 if (IsInside(i + x, j + y) && _plates[i + x, j + y].IsBombMark == false)
                     _plates[i + x, j + y].Open();         
     }
+
     private bool IsInside(int x, int y) =>
         x >= 0 && x < _plates.GetLength(0) &&
         y >= 0 && y < _plates.GetLength(1);
