@@ -7,31 +7,33 @@ using UnityEngine.Events;
 
 public class PlatesGrid : MonoBehaviour
 {
-    [SerializeField] private int with;
-    [SerializeField] private int hight;
+    [SerializeField] private int _with;
+    [SerializeField] private int _hight;
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
-    private Plates[,] _plates;   
+    private Plates[,] _plates;
+    
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
     public event UnityAction<Vector3> FindetStartPosition;    
 
-    private void SetSize()
-    {
-        with = _settings.MapSize;
-        hight = _settings.MapSize;
-        _gridLayout.constraintCount = _settings.MapSize;
-    }
 
     public void SpawnGrid()
     {
         SetSize();
-        _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, with, hight);
+        _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, _with, _hight);
         Subscribe();
         StartedGame?.Invoke();
         StartCoroutine(WaitAndOpenRandomZeros(0.2f));
+    }
+
+    private void SetSize()
+    {
+        _with = _settings.MapSize;
+        _hight = _settings.MapSize;
+        _gridLayout.constraintCount = _settings.MapSize;
     }
 
     public void ReSpawnGrid()
@@ -61,8 +63,7 @@ public class PlatesGrid : MonoBehaviour
             plate.Winable += CheckWin;
             plate.PressedOnNumber += OnPressedOnNumber;
         }
-    }
-    
+    }    
 
     private void UnSubscribe()
     {
@@ -92,7 +93,7 @@ public class PlatesGrid : MonoBehaviour
                 if (IsInside(i + x, j + y))
                     if (_plates[i + x, j + y].NearbyBobmAmount == 0)
                         if (_plates[i + x, j + y].IsCheked == false && _plates[i + x, j + y].IsBombMark == false)
-                        {                                                       
+                        {
                             _plates[i + x, j + y].MarkToOpen();
                             ShowPlates(i + x, j + y);
                             yield return OpenNeerbyZerosSlow(i + x, j + y);
@@ -117,11 +118,11 @@ public class PlatesGrid : MonoBehaviour
     private void TryOpenRandomZeros()
     {
         int x, y;
-        int maxTryAmount = with * hight;
+        int maxTryAmount = _with * _hight;
         do
         {
-           x = Random.Range(0, with);
-           y = Random.Range(0, hight);
+           x = Random.Range(0, _with);
+           y = Random.Range(0, _hight);
             maxTryAmount--;
 
             if (maxTryAmount < 0)
@@ -146,6 +147,7 @@ public class PlatesGrid : MonoBehaviour
 
     private void OnGameOver()
     {
+        StopAllCoroutines();
         GameOver?.Invoke();
     }
 
