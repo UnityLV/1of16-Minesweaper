@@ -5,15 +5,14 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
 
-public class PlatesGrid : MonoBehaviour
+public sealed class PlatesGrid : MonoBehaviour
 {
     [SerializeField] private int _with;
     [SerializeField] private int _hight;
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
-    private Plates[,] _plates;
-    
+    private Plates[,] _plates;    
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
@@ -58,8 +57,8 @@ public class PlatesGrid : MonoBehaviour
             plate.Opened += OnOpened;
             plate.GameOver += OpenAllBombs;
             plate.GameOver += BlockAllPlates;
-            plate.GameOver += FindAllFalseBombMark;
-            plate.GameOver += OnGameOver;      
+            plate.GameOver += SetAllFalseBombMark;
+            plate.GameOver += InvokeGameOver;      
             plate.Winable += CheckWin;
             plate.PressedOnNumber += OnPressedOnNumber;
         }
@@ -72,8 +71,8 @@ public class PlatesGrid : MonoBehaviour
             plate.Opened -= OnOpened;
             plate.GameOver -= OpenAllBombs;
             plate.GameOver -= BlockAllPlates;
-            plate.GameOver -= FindAllFalseBombMark;
-            plate.GameOver -= OnGameOver;
+            plate.GameOver -= SetAllFalseBombMark;
+            plate.GameOver -= InvokeGameOver;
             plate.Winable -= CheckWin;
             plate.PressedOnNumber -= OnPressedOnNumber;
         }
@@ -85,7 +84,7 @@ public class PlatesGrid : MonoBehaviour
         TryOpenRandomZeros();        
     }
 
-    private IEnumerator OpenNeerbyZerosSlow(int x, int y)
+    private IEnumerator OpenNeerbyZerosSlowly(int x, int y)
     {
         yield return null;
         for (int i = -1; i <= 1; i++)
@@ -96,23 +95,9 @@ public class PlatesGrid : MonoBehaviour
                         {
                             _plates[i + x, j + y].MarkToOpen();
                             ShowPlates(i + x, j + y);
-                            yield return OpenNeerbyZerosSlow(i + x, j + y);
+                            yield return OpenNeerbyZerosSlowly(i + x, j + y);
                         }        
         
-    }
-
-    private void OpenNeerbyZeros(int x, int y)
-    {
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                if (IsInside(i + x, j + y))
-                    if (_plates[i + x, j + y].NearbyBobmAmount == 0)
-                        if (_plates[i + x, j + y].IsCheked == false && _plates[i + x, j + y].IsBombMark == false)
-                        {
-                            _plates[i + x, j + y].MarkToOpen();
-                            ShowPlates(i + x, j + y);
-                            OpenNeerbyZeros(i + x, j + y);
-                        }
     }
 
     private void TryOpenRandomZeros()
@@ -125,10 +110,9 @@ public class PlatesGrid : MonoBehaviour
            y = Random.Range(0, _hight);
             maxTryAmount--;
 
-            if (maxTryAmount < 0)
-            {
+            if (maxTryAmount < 0)            
                 return;
-            }
+            
 
         } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
         
@@ -142,10 +126,10 @@ public class PlatesGrid : MonoBehaviour
     {
         BlockAllPlates();
         OpenAllNoBombs();
-        OnGameOver();
+        InvokeGameOver();
     }
 
-    private void OnGameOver()
+    private void InvokeGameOver()
     {
         StopAllCoroutines();
         GameOver?.Invoke();
@@ -153,20 +137,25 @@ public class PlatesGrid : MonoBehaviour
 
     private void OnPressedOnNumber(Vector2Int position)
     {
-        if (GetNearbyMarkAmount(position.x, position.y) ==
-            _plates[position.x, position.y].NearbyBobmAmount)
+        if (IsAvalableToOpenAroundNuber(position))
         {
             TryOpenNearby(position.x, position.y);
         }
     }
 
+    private bool IsAvalableToOpenAroundNuber( Vector2Int position)
+    {
+        return GetNearbyMarkAmount(position.x, position.y) == _plates[position.x, position.y].NearbyBobmAmount;
+    }
+
     private void TryOpenNearby(int x, int y)
-    {        
+    {
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
-                if (IsInside(i + x, j + y) && _plates[i + x, j + y].IsBombMark == false)
-                    _plates[i + x, j + y].SimulatePressingLeft();        
+                if (IsNoMarked(i + x, j + y))
+                    _plates[i + x, j + y].SimulatePressingLeft();
     }
+
 
     private void CheckWin()
     {
@@ -175,7 +164,7 @@ public class PlatesGrid : MonoBehaviour
         {
             if (plate.IsBomb && plate.IsBombMark)
                 counter++;
-            if (!plate.IsBomb && plate.IsBombMark)
+            if (plate.IsBomb == false && plate.IsBombMark)
                 counter--;
         }  
             
@@ -183,10 +172,10 @@ public class PlatesGrid : MonoBehaviour
             SetWinInGame();
     }
     
-    private void FindAllFalseBombMark()
+    private void SetAllFalseBombMark()
     {
         foreach (var plate in _plates)
-            if (plate.IsBombMark && !plate.IsBomb)
+            if (plate.IsBombMark && plate.IsBomb == false)
                 plate.SetFalseBombMark();
     }   
     private void BlockAllPlates()
@@ -197,7 +186,7 @@ public class PlatesGrid : MonoBehaviour
     private void OpenAllBombs()
     {
         foreach (var plate in _plates)
-            if (plate.IsBomb && !plate.IsBombMark)        
+            if (plate.IsBomb && plate.IsBombMark == false)        
                 plate.Open();                          
     }
     private void OnOpened(Vector2Int position)
@@ -206,7 +195,7 @@ public class PlatesGrid : MonoBehaviour
         x = position.x;
         y = position.y;
 
-        StartCoroutine(OpenNeerbyZerosSlow(x, y));            
+        StartCoroutine(OpenNeerbyZerosSlowly(x, y));            
     }
     private void OpenAllNoBombs()
     {
@@ -219,9 +208,11 @@ public class PlatesGrid : MonoBehaviour
     {
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
-                if (IsInside(i + x, j + y) && _plates[i + x, j + y].IsBombMark == false)
+                if (IsNoMarked(i + x, j + y))
                     _plates[i + x, j + y].Open();         
     }    
+
+    private bool IsNoMarked(int x, int y) => IsInside(x, y) && _plates[x, y].IsBombMark == false;
 
     private int GetNearbyMarkAmount(int x, int y)
     {

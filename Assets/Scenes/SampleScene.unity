@@ -1236,6 +1236,7 @@ GameObject:
   - component: {fileID: 434486941}
   - component: {fileID: 434486940}
   - component: {fileID: 434486939}
+  - component: {fileID: 434486942}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -1308,42 +1309,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 718961795}
-        m_TargetAssemblyTypeName: UIViewer, Assembly-CSharp
-        m_MethodName: DeactivateAll
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 718961795}
-        m_TargetAssemblyTypeName: UIViewer, Assembly-CSharp
-        m_MethodName: LoadUI
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 209375034}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 718961795}
-        m_TargetAssemblyTypeName: UIViewer, Assembly-CSharp
-        m_MethodName: LoadUI
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 2036141231}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1640243967}
         m_TargetAssemblyTypeName: PlatesGrid, Assembly-CSharp
         m_MethodName: Clear
@@ -1392,6 +1357,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 434486942}
+        m_TargetAssemblyTypeName: UILoader, Assembly-CSharp
+        m_MethodName: LoadMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &434486940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1430,6 +1407,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434486937}
   m_CullTransparentMesh: 1
+--- !u!114 &434486942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434486937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737cf90ab0975314a89b2550208f9f4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _menu:
+  - {fileID: 209375034}
+  - {fileID: 2036141231}
+  _field:
+  - {fileID: 434486938}
+  - {fileID: 47796389}
 --- !u!1 &475924787
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,7 +2597,6 @@ GameObject:
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   - component: {fileID: 963194233}
-  - component: {fileID: 963194232}
   - component: {fileID: 963194234}
   m_Layer: 0
   m_Name: Main Camera
@@ -2758,21 +2752,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _platesGrid: {fileID: 1640243967}
   _speed: 60
---- !u!114 &963194232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6375e04cd8496e349970dee7eb7d1ba2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 963194227}
-  _settings: {fileID: 1640243973}
-  _speed: 140
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2788,7 +2767,7 @@ MonoBehaviour:
   _maxDictance: 100
   _minDictance: 20
   _camera: {fileID: 963194227}
-  _speed: -2
+  _speed: 2
 --- !u!114 &963194234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3832,7 +3811,7 @@ GameObject:
   - component: {fileID: 1640243973}
   - component: {fileID: 1640243975}
   m_Layer: 0
-  m_Name: GridSpawner
+  m_Name: Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3936,8 +3915,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _platePrefab: {fileID: 2751274095595315057, guid: ee28def7f48d9a948be524c12c0d218c, type: 3}
-  _GenerateBombs: {fileID: 1640243971}
-  _GenerateNumbers: {fileID: 1640243970}
+  _bombsDeterminator: {fileID: 1640243971}
+  _platesFiller: {fileID: 1640243970}
 --- !u!114 &1640243973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4536,7 +4515,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2034778994}
   m_Layer: 0
-  m_Name: Game
+  m_Name: Minesweaper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

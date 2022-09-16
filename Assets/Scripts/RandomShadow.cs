@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class RandomShadow: MonoBehaviour
+public sealed class RandomShadow: MonoBehaviour
 {
     [Range(0,1)] [SerializeField] private float _maxShadow;
     [SerializeField] private Color _shadowColor;

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Plates : MonoBehaviour, IPointerClickHandler
+public sealed class Plates : MonoBehaviour, IPointerClickHandler
 {
     private bool _isOpen; 
     private bool _endOfGame; 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraClickAndDrug : MonoBehaviour
+public sealed class CameraClickAndDrug : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
     private Vector3 _origin;

@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraMovement : MonoBehaviour
+public sealed class CameraMovement : MonoBehaviour
 {
     [SerializeField] private PlatesGrid _platesGrid;
     [SerializeField] private float _speed = 30;
-
-
     
 
     private void OnEnable()

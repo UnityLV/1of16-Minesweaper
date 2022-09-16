@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlatesGridView : MonoBehaviour
+public sealed class PlatesGridView : MonoBehaviour
 {
     [SerializeField] private PlatesGrid _grid;    
     [SerializeField] private RectTransform _restartButton;

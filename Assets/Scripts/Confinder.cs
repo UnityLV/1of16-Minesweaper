@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Confinder : MonoBehaviour
+public sealed class Confinder : MonoBehaviour
 {
     [SerializeField] private PolygonCollider2D _polygon;
     [SerializeField] private Settings _settings;
