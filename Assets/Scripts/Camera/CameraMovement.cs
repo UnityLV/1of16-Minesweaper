@@ -7,6 +7,9 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private PlatesGrid _platesGrid;
     [SerializeField] private float _speed = 30;
 
+
+    
+
     private void OnEnable()
     {
         _platesGrid.FindetStartPosition += OnFindetStartPosition;

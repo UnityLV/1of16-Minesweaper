@@ -11,9 +11,8 @@ public class TrackMousePosition2D : MonoBehaviour
     private int _defaultPorder = 50;
     private readonly float _screenDistanceToMove = 40;
 
-
     void Update()
-    {        
+    {       
 
         if (Input.mousePosition.x >= Screen.width - _screenDistanceToMove)
         {

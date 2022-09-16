@@ -11,7 +11,6 @@ public class SettingsView : MonoBehaviour
     {
         _settings.BombsAmountChanged += OnBombsAmountChanged;
         _settings.MapSizeChanged += OnMapSizeChanged;
-
 	}
 
     private void OnDisable()

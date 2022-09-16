@@ -2603,6 +2603,7 @@ GameObject:
   - component: {fileID: 963194231}
   - component: {fileID: 963194233}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194234}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2764,7 +2765,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6375e04cd8496e349970dee7eb7d1ba2, type: 3}
   m_Name: 
@@ -2788,6 +2789,19 @@ MonoBehaviour:
   _minDictance: 20
   _camera: {fileID: 963194227}
   _speed: -2
+--- !u!114 &963194234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d76a62a1cd603b45a795310e14b4655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 963194227}
 --- !u!1 &973926557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3836,8 +3850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bce4180040fc0e4693844b874934f9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  with: 10
-  hight: 10
+  _with: 0
+  _hight: 0
   _settings: {fileID: 1640243973}
   _generatePlatesField: {fileID: 1640243972}
   _gridLayout: {fileID: 1640243969}
