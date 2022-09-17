@@ -11,9 +11,8 @@ public sealed class Settings : MonoBehaviour
 
 	public event UnityAction<int> BombsAmountChanged;
 	public event UnityAction<int> MapSizeChanged;
-	[field: SerializeField] public int MapSize { get; private set; } = 10;
-	[field: SerializeField] public int BombsAmount { get; private set; } = 10;
-
+	public int MapSize { get; private set; } = 10;
+	public int BombsAmount { get; private set; } = 10;
 
     private void Awake() => Application.targetFrameRate = _targetFPS;
 

@@ -13,6 +13,16 @@ public sealed class CameraMovement : MonoBehaviour
 
     private void Update()
     {
+        TryMove();
+    }    
+
+    private void OnDisable()
+    {
+        _platesGrid.FindetStartPosition -= OnFindetStartPosition;
+    }
+
+    private void TryMove()
+    {
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector2.up * Time.deltaTime * _speed);
@@ -31,14 +41,9 @@ public sealed class CameraMovement : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void OnFindetStartPosition(Vector3 position)
     {
-        _platesGrid.FindetStartPosition -= OnFindetStartPosition;
-    }
-
-    private void OnFindetStartPosition(Vector3 arg0)
-    {
-        transform.position = new Vector3(arg0.x , arg0.y , transform.position.z);
+        transform.position = new Vector3(position.x , position.y , transform.position.z);
     }
 
     public void SetDefaultPosition()

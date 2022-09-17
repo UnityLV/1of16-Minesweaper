@@ -338,6 +338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e64107c9e59cd4b8e782a7d74b37f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxShadow: 0.198
+  _maxShadow: 0.209
   _shadowColor: {r: 0, g: 0, b: 0, a: 0}
   _image: {fileID: 5275624170661995089}
