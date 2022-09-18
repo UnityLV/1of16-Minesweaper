@@ -5,7 +5,7 @@ using TMPro;
 
 public sealed class PlatesView : MonoBehaviour
 {
-    [SerializeField] private Plate _plate;
+    [SerializeField] private Plates _plate;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Image _image;
     [SerializeField] private Sprite _openImageBobm;
@@ -15,6 +15,7 @@ public sealed class PlatesView : MonoBehaviour
     [SerializeField] private Sprite _firstBomb;
     [SerializeField] private Sprite _falseBombMark;
     [SerializeField] private ColorBin _bin;
+
 
     
     private void OnEnable()

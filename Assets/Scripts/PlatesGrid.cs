@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -6,17 +7,17 @@ using UnityEngine.Events;
 
 public sealed class PlatesGrid : MonoBehaviour
 {
+    [SerializeField] private int _with;
+    [SerializeField] private int _hight;
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
-
-    private Plate[,] _plates;    
-    private int _hight;
-    private int _with;
+    private Plates[,] _plates;    
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
-    public event UnityAction<Vector3> FindetStartPosition;   
+    public event UnityAction<Vector3> FindetStartPosition;    
+
 
     public void SpawnGrid()
     {
@@ -154,6 +155,7 @@ public sealed class PlatesGrid : MonoBehaviour
                 if (IsNoMarked(i + x, j + y))
                     _plates[i + x, j + y].SimulatePressingLeft();
     }
+
 
     private void CheckWin()
     {

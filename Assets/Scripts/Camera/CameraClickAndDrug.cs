@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class CameraClickAndDrug : MonoBehaviour
 {
@@ -6,7 +8,8 @@ public sealed class CameraClickAndDrug : MonoBehaviour
     private Vector3 _origin;
     private Vector3 _difference;    
 
-    private bool _drag = false;    
+    private bool _drag = false;  
+   
 
     private void Update()
     {

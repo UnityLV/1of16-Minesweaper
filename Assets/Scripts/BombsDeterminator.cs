@@ -1,8 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class BombsDeterminator
+public sealed class BombsDeterminator : MonoBehaviour
 {    
-    public int[,] CreateBombsMap(Plate[,] plates, int bombAmount)
+    public int[,] CreateBombsMap(Plates[,] plates, int bombAmount)
     {
         int[,] bombsMap = new int[plates.GetLength(0), plates.GetLength(1)];
 
