@@ -84,9 +84,8 @@ public sealed class PlatesGrid : MonoBehaviour
         TryOpenRandomZeros();        
     }
 
-    private IEnumerator OpenNeerbyZerosSlowly(int x, int y)
+    private IEnumerator OpenNeerbyZeros(int x, int y)
     {
-        yield return null;
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 if (IsInside(i + x, j + y))
@@ -95,7 +94,7 @@ public sealed class PlatesGrid : MonoBehaviour
                         {
                             _plates[i + x, j + y].MarkToOpen();
                             ShowPlates(i + x, j + y);
-                            yield return OpenNeerbyZerosSlowly(i + x, j + y);
+                            yield return OpenNeerbyZeros(i + x, j + y);
                         }        
         
     }
@@ -195,7 +194,7 @@ public sealed class PlatesGrid : MonoBehaviour
         x = position.x;
         y = position.y;
 
-        StartCoroutine(OpenNeerbyZerosSlowly(x, y));            
+        StartCoroutine(OpenNeerbyZeros(x, y));            
     }
     private void OpenAllNoBombs()
     {

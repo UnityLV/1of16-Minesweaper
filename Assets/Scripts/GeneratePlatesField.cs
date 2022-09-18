@@ -3,8 +3,8 @@ using UnityEngine;
 public sealed class GeneratePlatesField : MonoBehaviour
 {
     [SerializeField] private Plates _platePrefab;
-    [SerializeField] private BombsDeterminator _bombsDeterminator;
-    [SerializeField] private PlatesFiller _platesFiller;    
+    [SerializeField] private BombsDeterminator _bombsDeterminator = new();
+    [SerializeField] private PlatesFiller _platesFiller = new(); 
 
     public Plates[,] SpawnPlates(int _bombAmount,int hight = 10, int with = 10)
     {

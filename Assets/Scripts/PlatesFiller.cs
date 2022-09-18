@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public sealed class PlatesFiller : MonoBehaviour
+public sealed class PlatesFiller 
 {
     public FillingPlates[,] GetFillingMap(int[,] bombMap)
     {

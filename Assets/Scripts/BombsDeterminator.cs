@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class BombsDeterminator : MonoBehaviour
+public sealed class BombsDeterminator
 {    
     public int[,] CreateBombsMap(Plates[,] plates, int bombAmount)
     {
