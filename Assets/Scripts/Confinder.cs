@@ -25,7 +25,7 @@ public sealed class Confinder : MonoBehaviour
 
     private void OnGameStarted()
     {
-        if (_settings.MapSize > 10)
+        if (_settings.MapLength > 10)
         {
             SetCollidersPoints(Size);
         }

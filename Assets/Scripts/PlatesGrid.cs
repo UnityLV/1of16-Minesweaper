@@ -12,6 +12,7 @@ public sealed class PlatesGrid : MonoBehaviour
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
+    [SerializeField] private RemainingBombsIndicator _remainingIndicator;
     private Plates[,] _plates;    
 
     public event UnityAction GameOver;
@@ -25,14 +26,16 @@ public sealed class PlatesGrid : MonoBehaviour
         _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, _with, _hight);
         Subscribe();
         StartedGame?.Invoke();
+
+        _remainingIndicator.ResetBombAmount(Mathf.Clamp(_settings.BombsAmount,1, _with * _hight));
         StartCoroutine(WaitAndOpenRandomZeros(0.2f));
     }
 
     private void SetSize()
     {
-        _with = _settings.MapSize;
-        _hight = _settings.MapSize;
-        _gridLayout.constraintCount = _settings.MapSize;
+        _with = _settings.MapLength;
+        _hight = _settings.MapLength;
+        _gridLayout.constraintCount = _settings.MapLength;
     }
 
     public void ReSpawnGrid()
@@ -61,6 +64,7 @@ public sealed class PlatesGrid : MonoBehaviour
             plate.GameOver += InvokeGameOver;      
             plate.Winable += CheckWin;
             plate.PressedOnNumber += OnPressedOnNumber;
+            plate.BombMarkUpdated += _remainingIndicator.OnPlateBombMarkUpdated;
         }
     }    
 
@@ -75,6 +79,7 @@ public sealed class PlatesGrid : MonoBehaviour
             plate.GameOver -= InvokeGameOver;
             plate.Winable -= CheckWin;
             plate.PressedOnNumber -= OnPressedOnNumber;
+            plate.BombMarkUpdated -= _remainingIndicator.OnPlateBombMarkUpdated;
         }
     }
 
@@ -121,6 +126,23 @@ public sealed class PlatesGrid : MonoBehaviour
 
     }
 
+    private void CheckWin()
+    {
+        int counter = 0;
+        foreach (var plate in _plates)
+        {
+            if (plate.IsBomb && plate.IsBombMark)
+                counter++;
+            if (plate.IsBomb == false && plate.IsBombMark)
+                counter--;
+        }
+
+        int bombsOnField = Mathf.Clamp(_settings.BombsAmount, 1, _with * _hight);
+
+        if (counter == bombsOnField)
+            SetWinInGame();
+    }
+
     private void SetWinInGame()
     {
         BlockAllPlates();
@@ -156,20 +178,7 @@ public sealed class PlatesGrid : MonoBehaviour
     }
 
 
-    private void CheckWin()
-    {
-        int counter = 0;
-        foreach (var plate in _plates)
-        {
-            if (plate.IsBomb && plate.IsBombMark)
-                counter++;
-            if (plate.IsBomb == false && plate.IsBombMark)
-                counter--;
-        }  
-            
-        if (counter == _settings.BombsAmount)
-            SetWinInGame();
-    }
+   
     
     private void SetAllFalseBombMark()
     {

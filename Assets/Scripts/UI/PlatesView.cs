@@ -16,7 +16,6 @@ public sealed class PlatesView : MonoBehaviour
     [SerializeField] private Sprite _falseBombMark;
     [SerializeField] private ColorBin _bin;
 
-
     
     private void OnEnable()
     {

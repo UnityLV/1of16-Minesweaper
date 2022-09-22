@@ -11,7 +11,7 @@ public sealed class Settings : MonoBehaviour
 
 	public event UnityAction<int> BombsAmountChanged;
 	public event UnityAction<int> MapSizeChanged;
-	[field: SerializeField] public int MapSize { get; private set; } = 10;
+	[field: SerializeField] public int MapLength { get; private set; } = 10;
 	[field: SerializeField] public int BombsAmount { get; private set; } = 10;
 
 
@@ -31,14 +31,14 @@ public sealed class Settings : MonoBehaviour
 
     public void OnBombAmountChanged()
 	{
-		BombsAmount = Mathf.RoundToInt(_bombsAmountSlider.value);
+		BombsAmount = Mathf.RoundToInt(_bombsAmountSlider.value);	
 		BombsAmountChanged?.Invoke(BombsAmount);		
 	}
 
 	public void OnMapSizeChanged()
 	{
-		MapSize = Mathf.RoundToInt(_mapSizeSlider.value);
-		MapSizeChanged?.Invoke(MapSize);
+		MapLength = Mathf.RoundToInt(_mapSizeSlider.value);
+		MapSizeChanged?.Invoke(MapLength);
 	}
 
 }
