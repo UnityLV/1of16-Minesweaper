@@ -9,8 +9,8 @@ public class SaverTest : MonoBehaviour
     [SerializeField] Text systemSavesText;
     [SerializeField] Toggle[] booleanArrayToggle;
 
-    private void OnEnable() => YandexGame.GetDataEvent += GetLoad;
-    private void OnDisable() => YandexGame.GetDataEvent -= GetLoad;
+    private void OnEnable() => YandexGame.GetDataEvent += GetLoad;//
+    private void OnDisable() => YandexGame.GetDataEvent -= GetLoad;//
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class SaverTest : MonoBehaviour
 
     public void Load() => YandexGame.LoadProgress();
 
-    public void GetLoad()
+    public void GetLoad()//
     {
         integerText.text = string.Empty;
         stringifyText.text = string.Empty;
