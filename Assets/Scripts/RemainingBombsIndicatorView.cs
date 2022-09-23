@@ -6,7 +6,8 @@ public class RemainingBombsIndicatorView : MonoBehaviour
     [SerializeField] private PopUp _popUp;
     [SerializeField] private Camera _camera;
 
-    private float _zOffset = 10;   
+    private float _zOffset = 10;
+    private int _maxBombAmountForShow = 10;
     
 
     private void OnEnable()
@@ -21,11 +22,10 @@ public class RemainingBombsIndicatorView : MonoBehaviour
 
     private void OnRemainingBombsAMounntChanged(int amount)
     {
-        if (amount > 0)
+        if (_maxBombAmountForShow >= amount && amount > 0) 
         {
             CreatePopUp(amount);
         }
-
     }
 
     private void CreatePopUp(int amount)

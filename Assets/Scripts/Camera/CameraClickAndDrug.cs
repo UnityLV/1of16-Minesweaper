@@ -16,13 +16,13 @@ public sealed class CameraClickAndDrug : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             _difference = _camera.ScreenToWorldPoint(Input.mousePosition) - _camera.transform.position;
-            if(_drag == false)
+            if (_drag == false)
             {
                 _drag = true;
                 _origin = _camera.ScreenToWorldPoint(Input.mousePosition);
             }
         }
-        else
+        else if (_drag) 
         {
             _drag = false;
         }

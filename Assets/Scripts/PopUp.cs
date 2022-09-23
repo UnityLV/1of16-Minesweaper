@@ -6,7 +6,7 @@ public class PopUp : MonoBehaviour
     [SerializeField] private TMP_Text _bombAMountText;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private AnimationCurve _curve;
-    private float _lifeTime = 2;
+    private float _lifeTime = 1.4f;
     private float _speed = 10f;
     private float _fateTime;
 
