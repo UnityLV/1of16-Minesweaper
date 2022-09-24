@@ -57,18 +57,18 @@ public sealed class CameraMovement : MonoBehaviour
 
     private IEnumerator MoveToTarget(Vector3 target)
     {
-        var t = 0f;        ;        
-        while (t < 0.08f)
+        var t = 0f;         
+        while (t < 0.12f)
         {
-            t += Time.deltaTime * 0.04f;           
+            t += Time.deltaTime * 0.06f;           
             transform.position = Vector3.Lerp(transform.position, target, t);
             yield return null;           
         }
-    }
+    }    
 
     public void TrySetStartPosition()
     {
-        if (_settings.MapLength < _noMoveMapLinght)
+        if (_settings.MapLength <= _noMoveMapLinght)
         {
             SetCenterPostion();
         }      
@@ -78,7 +78,12 @@ public sealed class CameraMovement : MonoBehaviour
     private void SetCenterPostion()
     {
         int lenght = _settings.MapLength;
-        Vector3 center = new Vector3(-50 + (lenght / 2f * 10f), 50 - (lenght / 2f * 10f), _zOffset);
+        float cellLength = 100f;
+        Vector2 upLeftCorner = new(-500f, 500f);
+        Vector3 center = new Vector3(
+            upLeftCorner.x + (lenght / 2f * cellLength),
+            upLeftCorner.y - (lenght / 2f * cellLength), 
+            _zOffset);
         transform.position = center;
     }
 }

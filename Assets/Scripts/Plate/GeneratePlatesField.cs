@@ -4,7 +4,13 @@ public sealed class GeneratePlatesField : MonoBehaviour
 {
     [SerializeField] private Plates _platePrefab;
     [SerializeField] private BombsDeterminator _bombsDeterminator = new();
-    [SerializeField] private PlatesFiller _platesFiller = new(); 
+    [SerializeField] private PlatesFiller _platesFiller = new();
+    private ObjectPooler<Plates> objectPooler;
+
+    private void Awake()
+    {
+        objectPooler = new ObjectPooler<Plates>(Instantiate, _platePrefab);
+    }
 
     public Plates[,] SpawnPlates(int _bombAmount,int hight = 10, int with = 10)
     {
@@ -29,8 +35,13 @@ public sealed class GeneratePlatesField : MonoBehaviour
 
     private Plates SpawnSinglePlate(int x, int y)
     {
-        Vector3 position = new Vector3(x, y, 0);
-        Plates plate = Instantiate(_platePrefab, position, Quaternion.identity, transform);
+        Plates plate = objectPooler.GetPooleable() as Plates;
+
+        Vector3 position = new Vector3(x, y, 0);        
+        plate.transform.position = position;
+        plate.transform.SetParent(transform);
+        plate.transform.localScale = Vector3.one;
+        plate.Activate();
         return plate;
     }
 

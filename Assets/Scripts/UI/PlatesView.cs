@@ -23,7 +23,15 @@ public sealed class PlatesView : MonoBehaviour
         _plate.FirstBomb += FirstBompPaintToRed;
         _plate.RightClick += OnClickRight;
         _plate.FalseBombMark += ShowFalseBombMark;
+        _plate.Deactivation += OnDeactivation;
     }
+
+    private void OnDeactivation(IPooleable arg0)
+    {
+        _image.sprite = _DefaultSprite;
+        _text.text = string.Empty;
+    }
+
     private void OnDisable()
     {
         _plate.LeftClick -= OnClickLeft;

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,IPooleable
 {
     private bool _isOpen; 
     private bool _endOfGame;
@@ -18,6 +18,9 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public event UnityAction FirstBomb;
     public event UnityAction FalseBombMark;
     public event UnityAction<Vector2Int> PressedOnNumber;
+    public event UnityAction<IPooleable> Deactivation;
+    
+
     public Vector2Int Position { get; private set; }
     public bool IsCheked { get; private set; }
     public bool IsBombMark { get; private set; }
@@ -100,5 +103,27 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         FirstBomb?.Invoke();
     }
 
-    
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+        Deactivation?.Invoke(this);
+        ResetValues();
+    }
+
+    public void Activate()
+    {
+        gameObject.SetActive(true);        
+    }
+
+    private void ResetValues()
+    {
+        _isOpen = false;
+        _endOfGame = false;
+        IsCheked = false;
+        IsBombMark = false;
+        IsBomb = false;
+        IsFalseBombMark = false;
+        NearbyBobmAmount = 0;
+}
+
 }

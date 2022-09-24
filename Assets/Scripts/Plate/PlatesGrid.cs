@@ -14,6 +14,7 @@ public sealed class PlatesGrid : MonoBehaviour
     [SerializeField] private GridLayoutGroup _gridLayout;
     [SerializeField] private RemainingBombsIndicator _remainingIndicator;
     private Plates[,] _plates;    
+    
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
@@ -48,7 +49,10 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            Destroy(child.gameObject);
+            if (child.gameObject.TryGetComponent(out Plates plates))
+            {
+                plates.Deactivate();
+            }            
         }
         UnSubscribe();
     }
