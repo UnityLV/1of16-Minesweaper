@@ -12,7 +12,7 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     public event UnityAction<bool,int> LeftClick;
     public event UnityAction<bool> RightClick;
     public event UnityAction<bool> BombMarkUpdated;
-    public event UnityAction<Vector2Int> Opened;
+    public event UnityAction<Vector2Int> OpenedZero;
     public event UnityAction GameOver;
     public event UnityAction Winable;
     public event UnityAction FirstBomb;
@@ -44,11 +44,15 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {        
         if (pointerEventData.pointerId == -1 && !IsBombMark && !_endOfGame)
         {
-            if (Vector3.Distance(_mouseDownPosition,pointerEventData.position) < _maxDistaceToClick)
+            bool valableForCLick = Vector3.Distance(_mouseDownPosition, pointerEventData.position) < _maxDistaceToClick;
+            if (valableForCLick)
             {
                 SimulatePressingLeft();
-            }            
-            
+
+                if (NearbyBobmAmount == 0)
+                    OpenedZero?.Invoke(Position);
+            }
+
             if (NearbyBobmAmount > 0)
             {
                 PressedOnNumber?.Invoke(Position);
@@ -75,19 +79,19 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
                 {
                     SetLooseInGame();
                 }
-                if (NearbyBobmAmount == 0)
-                    Opened?.Invoke(Position);
+                
             }
         }
 
     }
 
-    public void MarkToOpen()
-    {        
-        IsCheked = true;
-        Open();
+    public void MarkToCheked()
+    {
+        IsCheked = true;        
     }
-    public void OpenedIvent() => Opened?.Invoke(Position);
+
+    public void OpenedZeroIvent() => OpenedZero?.Invoke(Position);
+
     public void Open()
     {
         LeftClick?.Invoke(IsBomb, NearbyBobmAmount);
@@ -119,6 +123,7 @@ public sealed class Plates : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         _isOpen = false;
         _endOfGame = false;
+
         IsCheked = false;
         IsBombMark = false;
         IsBomb = false;

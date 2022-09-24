@@ -61,7 +61,7 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         foreach (var plate in _plates)
         {
-            plate.Opened += OnOpened;
+            plate.OpenedZero += OnOpened;
             plate.GameOver += OpenAllBombs;
             plate.GameOver += BlockAllPlates;
             plate.GameOver += SetAllFalseBombMark;
@@ -76,7 +76,7 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         foreach (var plate in _plates)
         {
-            plate.Opened -= OnOpened;
+            plate.OpenedZero -= OnOpened;
             plate.GameOver -= OpenAllBombs;
             plate.GameOver -= BlockAllPlates;
             plate.GameOver -= SetAllFalseBombMark;
@@ -101,7 +101,7 @@ public sealed class PlatesGrid : MonoBehaviour
                     if (_plates[i + x, j + y].NearbyBobmAmount == 0)
                         if (_plates[i + x, j + y].IsCheked == false && _plates[i + x, j + y].IsBombMark == false)
                         {
-                            _plates[i + x, j + y].MarkToOpen();
+                            _plates[i + x, j + y].MarkToCheked();
                             ShowPlates(i + x, j + y);
                             yield return OpenNeerbyZeros(i + x, j + y);
                         }        
@@ -125,7 +125,7 @@ public sealed class PlatesGrid : MonoBehaviour
         } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
         
         _plates[x, y].Open();
-        _plates[x, y].OpenedIvent();
+        _plates[x, y].OpenedZeroIvent();
         FindetStartPosition?.Invoke(_plates[x, y].transform.position);
 
     }

@@ -60,7 +60,7 @@ public sealed class CameraMovement : MonoBehaviour
         var t = 0f;         
         while (t < 0.12f)
         {
-            t += Time.deltaTime * 0.06f;           
+            t += Time.deltaTime * 0.09f;           
             transform.position = Vector3.Lerp(transform.position, target, t);
             yield return null;           
         }

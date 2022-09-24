@@ -50,8 +50,8 @@ public sealed class PlatesView : MonoBehaviour
     }
 
     private void OnClickLeft(bool isBomb, int nearbyBobmAmount)
-    {        
-        _text.text = isBomb ? string.Empty:nearbyBobmAmount.ToString();
+    {
+        _text.text = isBomb ? string.Empty : nearbyBobmAmount.ToString();
         _text.color = _bin[nearbyBobmAmount];
         _image.sprite = isBomb ? _openImageBobm : _openImage;
     }
