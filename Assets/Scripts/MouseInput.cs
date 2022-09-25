@@ -7,7 +7,7 @@ public sealed class MouseInput : MonoBehaviour
     [SerializeField] private LayerMask _platesLayerMask;
 
     private Vector2 _startDragPosition;
-    private float _minDragDistance = 0.01f;
+    private float _minDragDistance = 10.5f;
     
     private void Update()
     {
