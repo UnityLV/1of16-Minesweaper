@@ -1,20 +1,15 @@
-using System.Collections;
 using UnityEngine;
 
 public sealed class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Settings _settings;    
     [SerializeField] private PlatesGrid _platesGrid;
     [SerializeField] private float _speed = 30;
-    private int _noMoveMapLinght = 10;
-    private float _zOffset = -10;
+    
 
     private void OnEnable()
     {
         _platesGrid.FindetStartPosition += OnFindetStartPosition;
-        _platesGrid.StartedGame += OnGameStarted;
     }
-    
 
     private void Update()
     {
@@ -39,51 +34,15 @@ public sealed class CameraMovement : MonoBehaviour
     private void OnDisable()
     {
         _platesGrid.FindetStartPosition -= OnFindetStartPosition;
-        _platesGrid.StartedGame -= OnGameStarted;
-    }
-
-    private void OnGameStarted()
-    {
-        TrySetStartPosition();
     }
 
     private void OnFindetStartPosition(Vector3 arg0)
     {
-        if (_settings.MapLength > _noMoveMapLinght)
-        {
-            StartCoroutine(MoveToTarget(new Vector3(arg0.x, arg0.y, transform.position.z)));            
-        }
+        transform.position = new Vector3(arg0.x , arg0.y , transform.position.z);
     }
 
-    private IEnumerator MoveToTarget(Vector3 target)
+    public void SetDefaultPosition()
     {
-        var t = 0f;         
-        while (t < 0.12f)
-        {
-            t += Time.deltaTime * 0.09f;           
-            transform.position = Vector3.Lerp(transform.position, target, t);
-            yield return null;           
-        }
-    }    
-
-    public void TrySetStartPosition()
-    {
-        if (_settings.MapLength <= _noMoveMapLinght)
-        {
-            SetCenterPostion();
-        }      
-
-    }
-
-    private void SetCenterPostion()
-    {
-        int lenght = _settings.MapLength;
-        float cellLength = 100f;
-        Vector2 upLeftCorner = new(-500f, 500f);
-        Vector3 center = new Vector3(
-            upLeftCorner.x + (lenght / 2f * cellLength),
-            upLeftCorner.y - (lenght / 2f * cellLength), 
-            _zOffset);
-        transform.position = center;
+        transform.position = new Vector3(0, 0, -10);
     }
 }

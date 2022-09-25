@@ -4,7 +4,7 @@ using UnityEngine;
 
 public sealed class CameraClickAndDrug : MonoBehaviour
 {
-    [SerializeField] private Camera _camera;    
+    [SerializeField] private Camera _camera;
     private Vector3 _origin;
     private Vector3 _difference;    
 

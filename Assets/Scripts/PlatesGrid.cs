@@ -12,14 +12,8 @@ public sealed class PlatesGrid : MonoBehaviour
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;
     [SerializeField] private GridLayoutGroup _gridLayout;
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
     private Plates[,] _plates;
     private int _markedBombs;
-=======
-    [SerializeField] private RemainingBombsIndicator _remainingIndicator;
-    private Plates[,] _plates;    
-    
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
@@ -57,17 +51,10 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
             if (child.TryGetComponent(out Plates plate))
             {
                 plate.Deactivate();
             }           
-=======
-            if (child.gameObject.TryGetComponent(out Plates plates))
-            {
-                plates.Deactivate();
-            }            
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
         }
         UnSubscribe();
     }
@@ -77,16 +64,8 @@ public sealed class PlatesGrid : MonoBehaviour
         foreach (var plate in _plates)
         {
             plate.OpenedZero += OnOpened;
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
             plate.PressedOnBomb += OnPressedOnBomb;
             plate.MarkChanged += OnMarkChanged;
-=======
-            plate.GameOver += OpenAllBombs;
-            plate.GameOver += BlockAllPlates;
-            plate.GameOver += SetAllFalseBombMark;
-            plate.GameOver += InvokeGameOver;      
-            plate.Winable += CheckWin;
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
             plate.PressedOnNumber += OnPressedOnNumber;
         }
     }
@@ -97,16 +76,8 @@ public sealed class PlatesGrid : MonoBehaviour
         foreach (var plate in _plates)
         {
             plate.OpenedZero -= OnOpened;
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
             plate.PressedOnBomb -= OnPressedOnBomb;           
             plate.MarkChanged -= OnMarkChanged;
-=======
-            plate.GameOver -= OpenAllBombs;
-            plate.GameOver -= BlockAllPlates;
-            plate.GameOver -= SetAllFalseBombMark;
-            plate.GameOver -= InvokeGameOver;
-            plate.Winable -= CheckWin;
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
             plate.PressedOnNumber -= OnPressedOnNumber;
         }
     }
@@ -135,13 +106,8 @@ public sealed class PlatesGrid : MonoBehaviour
                         if (_plates[i + x, j + y].IsCheked == false && _plates[i + x, j + y].IsBombMark == false)
                         {
                             _plates[i + x, j + y].MarkToCheked();
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
                             ShowNeerbyPlates(i + x, j + y);
                             yield return OpenNeerbyZerosSlowly(i + x, j + y);
-=======
-                            ShowPlates(i + x, j + y);
-                            yield return OpenNeerbyZeros(i + x, j + y);
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
                         }        
         
     }
@@ -162,13 +128,8 @@ public sealed class PlatesGrid : MonoBehaviour
 
         } while (_plates[x,y].NearbyBobmAmount > 0 || _plates[x,y].IsBomb);
         
-<<<<<<< HEAD:Assets/Scripts/PlatesGrid.cs
         
         _plates[x, y].SimulatePressingLeft();
-=======
-        _plates[x, y].Open();
-        _plates[x, y].OpenedZeroIvent();
->>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9:Assets/Scripts/Plate/PlatesGrid.cs
         FindetStartPosition?.Invoke(_plates[x, y].transform.position);
 
     }
