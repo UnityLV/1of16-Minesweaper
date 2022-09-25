@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+=======
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9
 public class ObjectPooler<T> where T : MonoBehaviour
 {
     private T _template;
@@ -13,6 +21,10 @@ public class ObjectPooler<T> where T : MonoBehaviour
         _template = template;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9
     public IPooleable GetPooleable()
     {
         if (_pool.TryPop(out IPooleable pooleable))
@@ -22,8 +34,12 @@ public class ObjectPooler<T> where T : MonoBehaviour
         }
 
         IPooleable poolable = _instantiete(_template);
+<<<<<<< HEAD
         poolable.Deactivation += OnDeactivation;        
 
+=======
+        poolable.Deactivation += OnDeactivation;
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9
         return poolable;
     }
 
@@ -35,3 +51,7 @@ public class ObjectPooler<T> where T : MonoBehaviour
     }
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9

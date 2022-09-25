@@ -23,11 +23,23 @@ public sealed class PlatesView : MonoBehaviour
         _plate.LeftClick += OnClickLeft;
         _plate.FirstBombPressed += FirstBompPaintToRed;
         _plate.RightClick += OnClickRight;
+<<<<<<< HEAD
         _plate.FalseBombMarkFinded += ShowFalseBombMark;
         _plate.ShowedBombs += OnOpenedBombs;
         _plate.Deactivation += OnDeactivation;
     }
     
+=======
+        _plate.FalseBombMark += ShowFalseBombMark;
+        _plate.Deactivation += OnDeactivation;
+    }
+
+    private void OnDeactivation(IPooleable arg0)
+    {
+        _image.sprite = _DefaultSprite;
+        _text.text = string.Empty;
+    }
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9
 
     private void OnDisable()
     {
@@ -56,6 +68,7 @@ public sealed class PlatesView : MonoBehaviour
 
     private void OnClickLeft(bool isBomb, int nearbyBobmAmount)
     {
+<<<<<<< HEAD
         if (isBomb)
         {
             _spriteRenderer.sprite = isBomb ? _openImageBobm : _openImage;
@@ -64,6 +77,11 @@ public sealed class PlatesView : MonoBehaviour
         {
             _spriteRenderer.sprite = _bin[nearbyBobmAmount];
         }       
+=======
+        _text.text = isBomb ? string.Empty : nearbyBobmAmount.ToString();
+        _text.color = _bin[nearbyBobmAmount];
+        _image.sprite = isBomb ? _openImageBobm : _openImage;
+>>>>>>> 7de605bb5e59d3b72c66221bbf3290c747d24cb9
     }
     private void OnClickRight(bool BombMark)
     {
