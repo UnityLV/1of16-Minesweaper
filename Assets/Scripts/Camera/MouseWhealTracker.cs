@@ -2,24 +2,30 @@ using UnityEngine;
 
 public class MouseWhealTracker : MonoBehaviour
 {
-    [SerializeField] private float _maxDictance = 100f;
-    [SerializeField] private float _minDictance = 1f;
+    [SerializeField] private float _maxDictance;
+    [SerializeField] private float _minDictance;
     [SerializeField] private Camera _camera;
-    [SerializeField] private float _speed = 0.3f;    
-    private float _defaultOrthographicSize;
-    private void Start()
+    [SerializeField] private float _speed = 0.3f;
+    [SerializeField] private Settings _settings;
+
+    private void OnEnable()
     {
-        _defaultOrthographicSize = _camera.orthographicSize;
+        _settings.MapSizeChanged += OnMapSizeChanged;
+    }
+
+    private void OnDisable()
+    {
+        _settings.MapSizeChanged -= OnMapSizeChanged;
+    }
+
+    private void OnMapSizeChanged(int mapLength)
+    {
+        _maxDictance = mapLength;
     }
 
     void Update()
     {
         TryZoom();
-    }
-
-    public void ResetZoom()
-    {
-        _camera.orthographicSize = _defaultOrthographicSize;
     }
 
     private void TryZoom()

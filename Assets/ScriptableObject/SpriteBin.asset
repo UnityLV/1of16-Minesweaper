@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9974bf0ec930aae44be18f29f714cf08, type: 3}
+  m_Name: SpriteBin
+  m_EditorClassIdentifier: 
+  _colors:
+  - {fileID: 21300000, guid: 912f3902afe9ea94d8466521bb32c3bd, type: 3}
+  - {fileID: 21300000, guid: e5ec10a17e42826468423c760c1d051d, type: 3}
+  - {fileID: 21300000, guid: 1f6097833c0603147bcbed008b628262, type: 3}
+  - {fileID: 21300000, guid: b9ba745b641699b41ab60772cebfa10e, type: 3}
+  - {fileID: 21300000, guid: 67bb2c48fab182f4a8098ff47043d9be, type: 3}
+  - {fileID: 21300000, guid: a5cfa4cf65b714a4790a32587ef1702a, type: 3}
+  - {fileID: 21300000, guid: 9b2fbe064bdcb2e4aa41c06968e628dc, type: 3}
+  - {fileID: 21300000, guid: d8caefa1a7284a540bbf45e50fcff0bb, type: 3}
+  - {fileID: 21300000, guid: 79d6fbbe77a913746bed0935481a0db8, type: 3}

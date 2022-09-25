@@ -9,16 +9,16 @@ public sealed class SettingsView : MonoBehaviour
 
     private void OnEnable()
     {
-        _settings.BombsAmountChanged += OnBombsAmountChanged;
+        _settings.BombsPercentChanged += OnBombsPercentChanged;
         _settings.MapSizeChanged += OnMapSizeChanged;
 	}
 
     private void OnDisable()
     {
-		_settings.BombsAmountChanged -= OnBombsAmountChanged;
+		_settings.BombsPercentChanged -= OnBombsPercentChanged;
 		_settings.MapSizeChanged -= OnMapSizeChanged;
 	}
 
-    private void OnBombsAmountChanged(int value) => _bombsAmountText.text = value.ToString();
+    private void OnBombsPercentChanged(int value) => _bombsAmountText.text = value.ToString() + "%";
     private void OnMapSizeChanged(int value) => _mapSizeText.text = value.ToString();
 }
