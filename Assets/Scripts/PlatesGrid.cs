@@ -20,8 +20,7 @@ public sealed class PlatesGrid : MonoBehaviour
 
     private void Start()
     {
-        //PreGenerateField();
-        
+        PreGenerateField();        
     }
 
     private void PreGenerateField()

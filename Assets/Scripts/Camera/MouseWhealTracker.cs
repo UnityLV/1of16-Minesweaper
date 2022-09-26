@@ -10,7 +10,7 @@ public class MouseWhealTracker : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Settings _settings;
     [SerializeField] private PlatesGrid _platesGrid;
-   
+    private int _maxDefaultMapSize = 10;
 
     private void OnEnable()
     {
@@ -35,7 +35,10 @@ public class MouseWhealTracker : MonoBehaviour
     private void OnGameStarted()
     {
         _camera.orthographicSize = _maxDictance;
-        StartCoroutine(SmoothZoomTo());
+        if (_settings.MapSize > _maxDefaultMapSize)
+        {
+            StartCoroutine(SmoothZoomTo());
+        }
     }
 
     
@@ -47,7 +50,7 @@ public class MouseWhealTracker : MonoBehaviour
 
     private void TryZoom()
     {
-        _camera.orthographicSize += Input.mouseScrollDelta.y * -_speed;
+        _camera.orthographicSize += Input.mouseScrollDelta.y * -_speed * Mathf.Log(_camera.orthographicSize);
 
         _camera.orthographicSize = Mathf.Clamp(_camera.orthographicSize, _minDictance, _maxDictance);
     }
@@ -56,7 +59,7 @@ public class MouseWhealTracker : MonoBehaviour
     {
         var t = 0f;               
 
-        while (t < 0.6f)
+        while (t < 0.6f && Input.mouseScrollDelta.y == 0)
         {
             t += Time.deltaTime / 3f;
 

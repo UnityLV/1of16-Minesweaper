@@ -7,9 +7,11 @@ public sealed class CameraClickAndDrug : MonoBehaviour
     [SerializeField] private Camera _camera;
     private Vector3 _origin;
     private Vector3 _difference;    
+    private bool _drag = false;
 
-    private bool _drag = false;  
-   
+    public bool IsDraging => _drag;
+
+
 
     private void Update()
     {

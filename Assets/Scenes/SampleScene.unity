@@ -2560,6 +2560,7 @@ MonoBehaviour:
   _settings: {fileID: 1640243973}
   _platesGrid: {fileID: 1640243967}
   _speed: 60
+  _cameraClickAndDrug: {fileID: 963194234}
 --- !u!114 &963194233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2573,7 +2574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxDictance: 5
-  _minDictance: 1
+  _minDictance: 1.1
   _defaultDistance: 5
   _speed: 0.7
   _camera: {fileID: 963194227}

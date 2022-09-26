@@ -6,10 +6,11 @@ public sealed class CameraMovement : MonoBehaviour
     [SerializeField] private Settings _settings;
     [SerializeField] private PlatesGrid _platesGrid;
     [SerializeField] private float _speed = 30;
+    [SerializeField] private CameraClickAndDrug _cameraClickAndDrug;
     private Vector3 _startPosition;
     private float _plateSize = 1f;
     private float _zOffset = -10;
-    
+    private int _maxDefaultMapSize = 10;
 
     private void OnEnable()
     {
@@ -48,7 +49,7 @@ public sealed class CameraMovement : MonoBehaviour
     {
         
         _startPosition = position;
-        if (_settings.MapSize > 10)
+        if (_settings.MapSize > _maxDefaultMapSize)
         {
             position.Set(position.x, position.y, _zOffset);
             StartCoroutine(SmoothMoveTo(position));
@@ -83,7 +84,7 @@ public sealed class CameraMovement : MonoBehaviour
     {
         var t = 0f;
 
-        while (t < 0.17f)
+        while (t < 0.25f && _cameraClickAndDrug.IsDraging == false)
         {
             t += Time.deltaTime / 5f;
 
