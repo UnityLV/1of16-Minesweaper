@@ -30,6 +30,10 @@ public class MouseWhealTracker : MonoBehaviour
     private void OnMapSizeChanged(int mapLength)
     {
         _maxDictance = mapLength / 2f;
+        if (_maxDictance < _minDictance)
+        {
+            _maxDictance = _minDictance;
+        }
     }
 
     private void OnGameStarted()
