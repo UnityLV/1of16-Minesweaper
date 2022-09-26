@@ -10,26 +10,31 @@ public sealed class PlatesGrid : MonoBehaviour
     [SerializeField] private int _with;
     [SerializeField] private int _hight;
     [SerializeField] private Settings _settings;
-    [SerializeField] private GeneratePlatesField _generatePlatesField;
-    [SerializeField] private GridLayoutGroup _gridLayout;
-    private Plates[,] _plates;
+    [SerializeField] private GeneratePlatesField _generatePlatesField;    
+    private Plates[,] _plates;   
     private int _markedBombs;
 
     public event UnityAction GameOver;
     public event UnityAction StartedGame;
-    public event UnityAction<Vector3> FindetStartPosition;    
+    public event UnityAction<Vector3> FindetStartPosition;
 
+    private void Start()
+    {
+        //PreGenerateField();
+        
+    }
 
     private void PreGenerateField()
     {
-
+        _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount,_settings.MaxMapSize, _settings.MaxMapSize);
+        Clear();
     }
 
     public void SpawnGrid()
     {
         SetSize();       
         _plates = _generatePlatesField.SpawnPlates(_settings.BombsAmount, _with, _hight);
-        _markedBombs = 0;
+       
         Subscribe();
         StartedGame?.Invoke();
         StartCoroutine(WaitAndOpenRandomZeros(0.2f));
@@ -49,13 +54,11 @@ public sealed class PlatesGrid : MonoBehaviour
 
     public void Clear()
     {
-        foreach (Transform child in transform)
-        {
-            if (child.TryGetComponent(out Plates plate))
-            {
-                plate.Deactivate();
-            }           
+        foreach (var plate in _plates)
+        {            
+            plate.Deactivate();                       
         }
+        _markedBombs = 0;
         UnSubscribe();
     }
 
@@ -134,11 +137,7 @@ public sealed class PlatesGrid : MonoBehaviour
 
     }
 
-    private void SetWinInGame()
-    {       
-        InvokeGameOver();
-        OpenAllNumber();
-    }
+    
 
     private void InvokeGameOver()
     {
@@ -169,9 +168,12 @@ public sealed class PlatesGrid : MonoBehaviour
     }
 
 
-    private void OnMarkChanged(bool isBombMark)
+    private void OnMarkChanged(bool isBombMark,Vector2Int position)
     {        
-        _markedBombs += isBombMark ? 1 : -1;
+        if (_plates[position.x, position.y].IsBomb)
+        {
+            _markedBombs += isBombMark ? 1 : -1;
+        }
         CheckWin();
     }
 
@@ -179,6 +181,12 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         if (_markedBombs == _settings.BombsAmount)
             SetWinInGame();
+    }
+
+    private void SetWinInGame()
+    {
+        InvokeGameOver();
+        OpenAllNumber();
     }
 
     private void SetAllFalseBombMark()

@@ -34,8 +34,7 @@ public sealed class GeneratePlatesField : MonoBehaviour
 
     private Plates SpawnSinglePlate(int x, int y)
     {
-        Vector3 position = new Vector3(x, y, 0);
-        //Plates plate = Instantiate(_platePrefab, position, Quaternion.identity, transform);
+        Vector3 position = new Vector3(x, y, 0);        
         Plates plate = _objectPooler.GetPooleable() as Plates;
         plate.transform.position = position;
         plate.transform.SetParent(transform);
@@ -48,25 +47,6 @@ public sealed class GeneratePlatesField : MonoBehaviour
         for (int i = 0; i < plates.GetLength(0); i++)
             for (int j = 0; j < plates.GetLength(1); j++)
                 plates[i, j].Init(numberMap[i, j], new Vector2Int(i, j));
-    } 
-
-    public Plates[,] PreGenerateField(int hight, int with)
-    {
-        Plates[,] plates = new Plates[hight, with];
-        for (int x = 0; x < with; x++)
-            for (int y = 0; y < hight; y++)
-                plates[x, y] = SpawnSinglePlate(x, y);
-        return plates;
-    }
-
-    private Plates SpawnDisablePlate(int x, int y)
-    {
-        Vector3 position = new Vector3(x, y, 0);
-        //Plates plate = Instantiate(_platePrefab, position, Quaternion.identity, transform);
-        Plates plate = _objectPooler.GetPooleable() as Plates;
-        plate.transform.position = position;
-        plate.transform.SetParent(transform);        
-        return plate;
-    }
+    }   
 
 }

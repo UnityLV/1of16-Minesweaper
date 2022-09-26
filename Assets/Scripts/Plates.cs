@@ -9,7 +9,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
     
     public event UnityAction<bool,int> LeftClick;
     public event UnityAction<bool> RightClick;
-    public event UnityAction<bool> MarkChanged;
+    public event UnityAction<bool, Vector2Int> MarkChanged;
     public event UnityAction<Vector2Int> OpenedZero;
     public event UnityAction PressedOnBomb;
     public event UnityAction ShowedBombs;
@@ -25,6 +25,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
     public bool IsFalseBombMark { get; private set; }
     public int NearbyBobmAmount { get; private set; }
 
+
     public void Init(FillingPlates nearbyBobmAmount,Vector2Int position)
     {
         Position = position;
@@ -39,7 +40,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
             IsBombMark = !IsBombMark;
 
             RightClick?.Invoke(IsBombMark);  
-            MarkChanged?.Invoke(IsBombMark);
+            MarkChanged?.Invoke(IsBombMark, Position);
             
         }
     }

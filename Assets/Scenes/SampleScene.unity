@@ -525,10 +525,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1816361928}
   m_HandleRect: {fileID: 265178599}
   m_Direction: 0
-  m_MinValue: 1
+  m_MinValue: 2
   m_MaxValue: 200
   m_WholeNumbers: 1
-  m_Value: 2
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2557,6 +2557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887a8665c1e07a44aa2d217abadf8991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 1640243973}
   _platesGrid: {fileID: 1640243967}
   _speed: 60
 --- !u!114 &963194233
@@ -2571,11 +2572,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76175e27bc06010408d614da07c07209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxDictance: 10
-  _minDictance: 2
-  _camera: {fileID: 963194227}
+  _maxDictance: 5
+  _minDictance: 1
+  _defaultDistance: 5
   _speed: 0.7
+  _camera: {fileID: 963194227}
   _settings: {fileID: 1640243973}
+  _platesGrid: {fileID: 1640243967}
 --- !u!114 &963194234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3641,7 +3644,6 @@ MonoBehaviour:
   _hight: 0
   _settings: {fileID: 1640243973}
   _generatePlatesField: {fileID: 1640243972}
-  _gridLayout: {fileID: 0}
 --- !u!114 &1640243970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3696,6 +3698,7 @@ MonoBehaviour:
   _bombsPercentSlider: {fileID: 760228659}
   _mapSizeSlider: {fileID: 150866146}
   <MapSize>k__BackingField: 10
+  <MaxMapSize>k__BackingField: 200
   <BombsPercent>k__BackingField: 10
 --- !u!114 &1640243974
 MonoBehaviour:
