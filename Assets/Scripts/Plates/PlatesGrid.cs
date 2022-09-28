@@ -22,7 +22,7 @@ public sealed class PlatesGrid : MonoBehaviour
     public event UnityAction<Vector3> FindetStartPosition;
     public event UnityAction OpenNeerbyZerosCoroutineStarted;
     public event UnityAction OpenNeerbyZerosCoroutineStoped;
-    public event UnityAction<bool> PlatesMarkChanged;
+    public event UnityAction<bool,Vector2Int> PlatesMarkChanged;
 
     private void Start()
     {
@@ -170,7 +170,7 @@ public sealed class PlatesGrid : MonoBehaviour
         else
             _falseMarkedBombs += isBombMark ? 1 : -1;
         CheckWin();
-        PlatesMarkChanged?.Invoke(isBombMark);
+        PlatesMarkChanged?.Invoke(isBombMark, position);
     }
 
     private void OnPressedOnNumber(Vector2Int position)

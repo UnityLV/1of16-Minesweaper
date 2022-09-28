@@ -66,7 +66,7 @@ public class SoundMediator : MonoBehaviour
         _zeroOpenedCounter.OneEnded();        
     }
 
-    private void OnPlatesMarkChanged(bool placed)
+    private void OnPlatesMarkChanged(bool placed,Vector2Int _)
     {
         if (placed)
         {

@@ -6,10 +6,9 @@ public sealed class CameraMovement : MonoBehaviour
     [SerializeField] private Settings _settings;
     [SerializeField] private PlatesGrid _platesGrid;
     [SerializeField] private float _speed = 30;
-    [SerializeField] private CameraClickAndDrug _cameraClickAndDrug;
-    private Vector3 _startPosition;
+    [SerializeField] private CameraClickAndDrug _cameraClickAndDrug;    
     private float _plateSize = 1f;
-    private float _zOffset = -10;
+    private float _zOffset = -100;
     private int _maxDefaultMapSize = 10;
 
     private void OnEnable()
@@ -47,8 +46,6 @@ public sealed class CameraMovement : MonoBehaviour
 
     private void OnFindetStartPosition(Vector3 position)
     {
-        
-        _startPosition = position;
         if (_settings.MapSize > _maxDefaultMapSize)
         {
             position.Set(position.x, position.y, _zOffset);
@@ -78,7 +75,7 @@ public sealed class CameraMovement : MonoBehaviour
 
     public void SetDefaultPosition()
     {
-        transform.position = new Vector3(0, 0, -10);
+        transform.position = new Vector3(0, 0, _zOffset);
     }
     private IEnumerator SmoothMoveTo(Vector3 point)
     {
