@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class HoverAnimation : MonoBehaviour
 {
@@ -7,10 +8,17 @@ public class HoverAnimation : MonoBehaviour
     [SerializeField] private AnimationCurve _alphaColor;
     [SerializeField] private float _fateTimeSpeed = 0.2f;
     [SerializeField] private Color _color1;      
-    private float _fateTime;    
-    
+    private float _fateTime;
+    private bool _isAlredyDesapierd;
+
+    public event UnityAction<HoverAnimation> Desapierd;   
 
     private void Update()
+    {
+        SmoothDisapier();
+    }
+
+    private void SmoothDisapier()
     {
         _fateTime += Time.deltaTime * _fateTimeSpeed;
 
@@ -19,9 +27,15 @@ public class HoverAnimation : MonoBehaviour
         _sprite1.color = new Color(_color1.r, _color1.g, _color1.b, alpha);
         _sprite2.color = new Color(1, 1, 1, alpha);
 
-        if (alpha < 0)
+        if (_isAlredyDesapierd == false && alpha <= 0)
         {
-            Destroy(gameObject);
+            _isAlredyDesapierd = true;
+            Desapierd?.Invoke(this);
         }
     }      
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
 }

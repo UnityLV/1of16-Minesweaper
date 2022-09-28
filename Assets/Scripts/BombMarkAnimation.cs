@@ -13,29 +13,33 @@ public class BombMarkAnimation : MonoBehaviour
     {
         _plateGrid.PlatesMarkChanged += OnPlatesMarkChanged;
         _plateGrid.GameOver += OnGameOver;
+        _plateGrid.StartedGame += OnStartedGame;
     }
+
 
     private void OnDisable()
     {
         _plateGrid.PlatesMarkChanged -= OnPlatesMarkChanged;
         _plateGrid.GameOver -= OnGameOver;
+        _plateGrid.StartedGame -= OnStartedGame;
     }
 
     private void OnPlatesMarkChanged(bool isMark, Vector2Int position)
     {
-        if (isMark)
+        if (TryFindSamePosition(position, out HoverAnimation sameAnimation))
         {
-            Create(position);
+            DeleteAnimation(sameAnimation);
+            _animations.Remove(sameAnimation);
+            return;
         }
-        else
-        {
-            var alredyExistingAnimation = TryFindSamePosition(position);
-            if (alredyExistingAnimation != null)
-            {
-                Destroy(alredyExistingAnimation.gameObject);
-            }
-            
-        }
+
+        if (isMark)        
+            Create(position);               
+    }
+
+    private void OnStartedGame()
+    {
+        ClearAllAnimations();
     }
 
     private void OnGameOver()
@@ -46,21 +50,43 @@ public class BombMarkAnimation : MonoBehaviour
     private void ClearAllAnimations()
     {
         for (int i = 0; i < _animations.Count; i++)
-            if (_animations[i].gameObject != null)
-                Destroy(_animations[i].gameObject);
-
+        {
+            DeleteAnimation(_animations[i]);            
+        }
         _animations.Clear();
     }
 
-    private HoverAnimation TryFindSamePosition(Vector2Int position)
+    private bool TryFindSamePosition(Vector2Int position,out HoverAnimation sameAnimation)
     {
-        return _animations.Find(a => a.transform.position.x == position.x && a.transform.position.y == position.y);
+        foreach (var animation in _animations)
+        {
+            if (animation.transform.position.x == position.x && animation.transform.position.y == position.y)
+            {
+                sameAnimation = animation;
+                return true;
+            }
+        }
+        sameAnimation = default;
+        return false;
     }
 
     private void Create(Vector2Int position)
     {
         Vector3 vector3Position = new(position.x, position.y, _zOffset);
-        var animation = Instantiate(_animationPrefab, vector3Position, Quaternion.identity);       
+        var animation = Instantiate(_animationPrefab, vector3Position, Quaternion.identity);
+        animation.Desapierd += OnAnimationDisapierd;
         _animations.Add(animation);
+    }
+
+    private void OnAnimationDisapierd(HoverAnimation animation)
+    {
+        DeleteAnimation(animation);
+        _animations.Remove(animation);
+    }
+
+    private void DeleteAnimation(HoverAnimation animation)
+    {
+        animation.Desapierd -= OnAnimationDisapierd;        
+        Destroy(animation.gameObject);
     }
 }
