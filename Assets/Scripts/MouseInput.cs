@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public sealed class MouseInput : MonoBehaviour
@@ -7,34 +8,34 @@ public sealed class MouseInput : MonoBehaviour
     [SerializeField] private LayerMask _platesLayerMask;
 
     private Vector2 _startDragPosition;
-    private float _minDragDistance = 10.5f;
+    private float _minDragDistance = 50f;
+
+    public event UnityAction LeftCliked;
+    public event UnityAction RightCliked;
     
     private void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
-        }
+        if (EventSystem.current.IsPointerOverGameObject())        
+            return;        
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))        
             _startDragPosition = Input.mousePosition;
-        }
+        
 
         if (Input.GetMouseButtonUp(0))
         {            
             var collider = Physics2D.OverlapPoint(GetMousePosition(), _platesLayerMask);
-            if (collider != null)
-            {
+            if (collider != null)            
                 if (collider.gameObject.TryGetComponent(out Plates plate))
                 {
                     if (IsAvalableForClick())
                     {
-                        plate.PressingLeftMouseButton();
+                        plate.PlayerPressingLeftMouseButton();
+                        LeftCliked?.Invoke();
                     }
                     plate.PressingOnNumber();
                 }
-            }
+            
             
         }
         if (Input.GetMouseButtonUp(1))
@@ -46,7 +47,11 @@ public sealed class MouseInput : MonoBehaviour
             {
                 if (collider.gameObject.TryGetComponent(out Plates plate))
                 {
-                    plate.PressingRightMouseButton();
+                    if (IsAvalableForClick())
+                    {
+                        plate.PressingRightMouseButton();
+                        RightCliked?.Invoke();
+                    }
                 }
             }
         }

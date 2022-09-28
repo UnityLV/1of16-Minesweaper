@@ -1,24 +1,26 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
+
+
 public sealed class Plates : MonoBehaviour,IPooleable
 {
-    private bool _isOpen; 
     private bool _endOfGame; 
     
     public event UnityAction<bool,int> LeftClick;
     public event UnityAction<bool> RightClick;
-    public event UnityAction<bool, Vector2Int> MarkChanged;
+    public event UnityAction<bool, Vector2Int> MarkChanged;    
+    public event UnityAction PlayerOpenedZero;
     public event UnityAction<Vector2Int> OpenedZero;
+    public event UnityAction FirstBombPressed;
     public event UnityAction PressedOnBomb;
     public event UnityAction ShowedBombs;
-    public event UnityAction FirstBombPressed;
     public event UnityAction FalseBombMarkFinded;
     public event UnityAction<Vector2Int> PressedOnNumber;
     public event UnityAction<IPooleable> Deactivation;
 
-    public Vector2Int Position { get; private set; }
+    public Vector2Int Position { get; private set; }    
+    public bool IsOpen { get; private set; }
     public bool IsCheked { get; private set; }
     public bool IsBombMark { get; private set; }
     public bool IsBomb { get; private set; }
@@ -35,7 +37,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
     
     public void PressingRightMouseButton()
     {
-        if ((_isOpen || _endOfGame) == false)
+        if ((IsOpen || _endOfGame) == false)
         {
             IsBombMark = !IsBombMark;
 
@@ -44,16 +46,32 @@ public sealed class Plates : MonoBehaviour,IPooleable
             
         }
     }
-    public void PressingLeftMouseButton()
+    public void SimulatePressingLeftMouseButton()
     {
         if (_endOfGame == false)
         {
-            if (_isOpen == false && IsBombMark == false)
+            if (IsOpen == false && IsBombMark == false)
             {
                 PressedLeftOnClose();
             } 
-        }             
+        }
     }
+
+    public void PlayerPressingLeftMouseButton()
+    {
+        if (_endOfGame == false)
+        {
+            if (IsOpen == false && IsBombMark == false)
+            {
+                PressedLeftOnClose();
+                if (NearbyBobmAmount == 0)
+                {
+                    PlayerOpenedZero?.Invoke();
+                }
+            }
+        }
+    }
+
 
     public void PressingOnNumber()
     {
@@ -73,29 +91,13 @@ public sealed class Plates : MonoBehaviour,IPooleable
         }
         if (NearbyBobmAmount == 0)
             OpenedZero?.Invoke(Position);
-    }
-
-    public void MarkToCheked()
-    {
-        IsCheked = true;        
-    }
+    }   
     
     private void Open()
     {
         LeftClick?.Invoke(IsBomb, NearbyBobmAmount);
-        _isOpen = true;
-    }
-
-    public void SimulatePressingLeft()
-    {        
-        if (!IsBombMark && !_endOfGame)
-        {
-            if (_isOpen == false)
-            {
-                PressedLeftOnClose();
-            }
-        }        
-    }
+        IsOpen = true;
+    }    
 
     public void SetFalseBombMark() => FalseBombMarkFinded?.Invoke();
 
@@ -108,6 +110,8 @@ public sealed class Plates : MonoBehaviour,IPooleable
             LeftClick?.Invoke(IsBomb, NearbyBobmAmount);
         }
     }
+
+    public void Chek() => IsCheked = true;
 
     public void SetGameOver() => _endOfGame = true;
 
@@ -122,7 +126,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
 
     private void ResetValues()
     {
-        _isOpen = false;
+        IsOpen = false;
         _endOfGame = false;
 
         IsCheked = false;
