@@ -20,5 +20,8 @@ public sealed class SettingsView : MonoBehaviour
 	}
 
     private void OnBombsPercentChanged(int value) => _bombsAmountText.text = value.ToString() + "%";
-    private void OnMapSizeChanged(int value) => _mapSizeText.text = value.ToString();
+    private void OnMapSizeChanged(int value)
+    {
+        _mapSizeText.text =$"{value}X{value}";
+    }
 }

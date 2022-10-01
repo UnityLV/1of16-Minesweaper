@@ -32,10 +32,5 @@ public class HoverAnimation : MonoBehaviour
             _isAlredyDesapierd = true;
             Desapierd?.Invoke(this);
         }
-    }      
-
-    public void Destroy()
-    {
-        Destroy(gameObject);
-    }
+    } 
 }

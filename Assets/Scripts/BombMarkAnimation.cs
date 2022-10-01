@@ -13,14 +13,15 @@ public class BombMarkAnimation : MonoBehaviour
     {
         _plateGrid.PlatesMarkChanged += OnPlatesMarkChanged;
         _plateGrid.GameOver += OnGameOver;
-        _plateGrid.StartedGame += OnStartedGame;
+        _plateGrid.StartedGame += OnStartedGame;     
     }
 
+    
 
     private void OnDisable()
     {
         _plateGrid.PlatesMarkChanged -= OnPlatesMarkChanged;
-        _plateGrid.GameOver -= OnGameOver;
+        _plateGrid.GameOver -= OnGameOver; 
         _plateGrid.StartedGame -= OnStartedGame;
     }
 
@@ -37,15 +38,8 @@ public class BombMarkAnimation : MonoBehaviour
             Create(position);               
     }
 
-    private void OnStartedGame()
-    {
-        ClearAllAnimations();
-    }
-
-    private void OnGameOver()
-    {
-        ClearAllAnimations();
-    }
+    private void OnGameOver() => ClearAllAnimations();
+    private void OnStartedGame() => ClearAllAnimations();
 
     private void ClearAllAnimations()
     {
@@ -75,7 +69,7 @@ public class BombMarkAnimation : MonoBehaviour
         Vector3 vector3Position = new(position.x, position.y, _zOffset);
         var animation = Instantiate(_animationPrefab, vector3Position, Quaternion.identity);
         animation.Desapierd += OnAnimationDisapierd;
-        _animations.Add(animation);
+        _animations.Add(animation);        
     }
 
     private void OnAnimationDisapierd(HoverAnimation animation)

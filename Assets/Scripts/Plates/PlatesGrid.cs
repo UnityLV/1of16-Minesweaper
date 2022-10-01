@@ -12,11 +12,13 @@ public sealed class PlatesGrid : MonoBehaviour
     [SerializeField] private int _hight;
     [SerializeField] private Settings _settings;
     [SerializeField] private GeneratePlatesField _generatePlatesField;    
-    private Plates[,] _plates;   
-    private int _markedBombs;
-    private int _falseMarkedBombs;
+    private Plates[,] _plates;          
 
-    public event UnityAction PreGenerationComleated;    
+    public int MarkedBombs { get; private set; }
+    public int FalseMarkedBombs { get; private set; }
+
+    public event UnityAction PreGenerationComleated;   
+    public event UnityAction ClearingComleated;       
     public event UnityAction GameOver;
     public event UnityAction StartedGame;    
     public event UnityAction<Vector3> FindetStartPosition;
@@ -64,9 +66,10 @@ public sealed class PlatesGrid : MonoBehaviour
         {            
             plate.Deactivate();                       
         }
-        _markedBombs = 0;
-        _falseMarkedBombs = 0;
+        MarkedBombs = 0;
+        FalseMarkedBombs = 0;
         UnSubscribe();
+        ClearingComleated?.Invoke();
     }
 
     private void Subscribe()
@@ -166,11 +169,11 @@ public sealed class PlatesGrid : MonoBehaviour
     private void OnMarkChanged(bool isBombMark, Vector2Int position)
     {
         if (_plates[position.x, position.y].IsBomb)
-            _markedBombs += isBombMark ? 1 : -1;
+            MarkedBombs += isBombMark ? 1 : -1;
         else
-            _falseMarkedBombs += isBombMark ? 1 : -1;
-        CheckWin();
+            FalseMarkedBombs += isBombMark ? 1 : -1;
         PlatesMarkChanged?.Invoke(isBombMark, position);
+        CheckWin();
     }
 
     private void OnPressedOnNumber(Vector2Int position)
@@ -195,7 +198,7 @@ public sealed class PlatesGrid : MonoBehaviour
 
     private void CheckWin()
     {
-        if (_markedBombs == _settings.BombsAmount && _falseMarkedBombs == 0)
+        if (MarkedBombs == _settings.BombsAmount && FalseMarkedBombs == 0)
             SetWinInGame();
     }
 
