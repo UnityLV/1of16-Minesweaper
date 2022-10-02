@@ -75,7 +75,7 @@ public sealed class Plates : MonoBehaviour,IPooleable
 
     public void PressingOnNumber()
     {
-        if (NearbyBobmAmount > 0)
+        if (NearbyBobmAmount > 0 && IsBomb == false && IsBombMark == false)
         {
             PressedOnNumber?.Invoke(Position);
         }

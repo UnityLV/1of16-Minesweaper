@@ -15,7 +15,7 @@ public sealed class CameraClickAndDrug : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        if (Input.GetMouseButton(0) || Input.GetMouseButton(2))
         {
             _difference = _camera.ScreenToWorldPoint(Input.mousePosition) - _camera.transform.position;
             if(_drag == false)

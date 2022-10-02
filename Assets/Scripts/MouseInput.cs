@@ -18,7 +18,7 @@ public sealed class MouseInput : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())        
             return;        
 
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))        
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(2))        
             _startDragPosition = Input.mousePosition;
         
 
@@ -46,12 +46,11 @@ public sealed class MouseInput : MonoBehaviour
             if (collider != null)
             {
                 if (collider.gameObject.TryGetComponent(out Plates plate))
-                {
-                    if (IsAvalableForClick())
-                    {
-                        plate.PressingRightMouseButton();
-                        RightCliked?.Invoke();
-                    }
+                {                    
+                    plate.PressingRightMouseButton();
+                    RightCliked?.Invoke();
+
+                    plate.PressingOnNumber();
                 }
             }
         }
