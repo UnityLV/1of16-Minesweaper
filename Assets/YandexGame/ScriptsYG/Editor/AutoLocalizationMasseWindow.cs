@@ -98,8 +98,7 @@ namespace YG
                                 scrAL = obj.AddComponent<LanguageYG>();
 
                             scrAL.Serialize();
-                            scrAL.componentTextField = true;
-                            scrAL.Translate(19);
+                            scrAL.componentTextField = true;                            
                         }
                     }
 

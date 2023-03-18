@@ -6,7 +6,8 @@ public class SoundMediator : MonoBehaviour
 {
     [SerializeField] private Sound _gameLoadingCompleateSound;    
     [SerializeField] private Sound _gameStartSound;    
-    [SerializeField] private Sound _gameOverSound;    
+    [SerializeField] private Sound[] _loseInGameSounds;   
+    [SerializeField] private Sound[] _winInGameSounds;
     [SerializeField] private Sound _markRemoveSound;    
     [SerializeField] private Sound[] _markPlacedSounds;    
     [SerializeField] private Sound _openZerosSound;    
@@ -18,17 +19,21 @@ public class SoundMediator : MonoBehaviour
     private void OnEnable()
     {
         _plateGrid.StartedGame += OnStartedGame;
-        _plateGrid.GameOver += OnGameOver;
+        _plateGrid.LoseInGame += OnLoseInGame;
+        _plateGrid.WinInGame += OnWinInGame; 
+
         _plateGrid.PreGenerationComleated += OnPreGenerationCompleated;
         _plateGrid.OpenNeerbyZerosCoroutineStarted += OnOpenNeerbyZerosCoroutineStarted;
         _plateGrid.OpenNeerbyZerosCoroutineStoped += OnOpenNeerbyZerosCoroutineStoped;
         _plateGrid.PlatesMarkChanged += OnPlatesMarkChanged;
-    }    
+    }
 
     private void OnDisable()
     {
         _plateGrid.StartedGame -= OnStartedGame;
-        _plateGrid.GameOver -= OnGameOver;
+        _plateGrid.LoseInGame -= OnLoseInGame;
+        _plateGrid.WinInGame -= OnWinInGame;
+
         _plateGrid.PreGenerationComleated -= OnPreGenerationCompleated;
         _plateGrid.OpenNeerbyZerosCoroutineStarted -= OnOpenNeerbyZerosCoroutineStarted;
         _plateGrid.OpenNeerbyZerosCoroutineStoped -= OnOpenNeerbyZerosCoroutineStoped;
@@ -56,10 +61,18 @@ public class SoundMediator : MonoBehaviour
         PlayOneShot(_gameStartSound);
     }
 
-    private void OnGameOver()
+    private void OnLoseInGame()
     {
-        PlayOneShot(_gameOverSound);
+        var sound = GetRandom(_loseInGameSounds);
+        PlayOneShot(sound);
     }
+
+    private void OnWinInGame()
+    {
+        var sound = GetRandom(_winInGameSounds);
+        PlayOneShot(sound);        
+    }
+
 
     private void OnOpenNeerbyZerosCoroutineStoped()
     {
@@ -70,13 +83,18 @@ public class SoundMediator : MonoBehaviour
     {
         if (placed)
         {
-            var sound = _markPlacedSounds[Random.Range(0, _markPlacedSounds.Length)];
+            var sound = GetRandom(_markPlacedSounds);
             PlayOneShot(sound);
         }
         else
         {
             PlayOneShot(_markRemoveSound);
         }
+    }
+
+    private Sound GetRandom(Sound[] sounds)
+    {
+        return sounds[Random.Range(0, sounds.Length)];
     }
 
     private void PlayOneShot(Sound sound)

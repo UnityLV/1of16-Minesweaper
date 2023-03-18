@@ -6,6 +6,7 @@ public sealed class GeneratePlatesField : MonoBehaviour
     [SerializeField] private BombsDeterminator _bombsDeterminator;
     [SerializeField] private PlatesFiller _platesFiller;
     private ObjectPooler<Plates> _objectPooler;
+
     private void Awake()
     {
         _objectPooler = new ObjectPooler<Plates>(Instantiate, _platePrefab);

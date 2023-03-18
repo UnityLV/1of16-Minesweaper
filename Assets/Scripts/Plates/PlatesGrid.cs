@@ -4,8 +4,6 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using UnityEngine.Events;
 
-
-
 public sealed class PlatesGrid : MonoBehaviour
 {
     [SerializeField] private int _with;
@@ -20,6 +18,8 @@ public sealed class PlatesGrid : MonoBehaviour
     public event UnityAction PreGenerationComleated;   
     public event UnityAction ClearingComleated;       
     public event UnityAction GameOver;
+    public event UnityAction LoseInGame;
+    public event UnityAction WinInGame;
     public event UnityAction StartedGame;    
     public event UnityAction<Vector3> FindetStartPosition;
     public event UnityAction OpenNeerbyZerosCoroutineStarted;
@@ -98,7 +98,7 @@ public sealed class PlatesGrid : MonoBehaviour
     {
         OpenAllBombs();
         SetAllFalseBombMark();
-        InvokeGameOver();
+        InvokeLoseInGame();
         SetGameOverOnAllPlates();        
     }
 
@@ -116,12 +116,12 @@ public sealed class PlatesGrid : MonoBehaviour
                 plate.SetFalseBombMark();
     }
 
-    private void InvokeGameOver()
+    private void InvokeLoseInGame()
     {
-        SetGameOverOnAllPlates();
-        StopAllCoroutines();
-        GameOver?.Invoke();
+        SetGameOver();
+        LoseInGame?.Invoke();
     }
+
     private IEnumerator WaitAndOpenRandomZeros(float waitTime)
     {        
         yield return new WaitForSeconds(waitTime);
@@ -186,6 +186,7 @@ public sealed class PlatesGrid : MonoBehaviour
         GetNearbyMarkAmount(position.x, position.y) == _plates[position.x, position.y].NearbyBobmAmount;
 
     private void OpenPlates(Plates plate) => plate.SimulatePressingLeftMouseButton();
+
     private void OpenPlateAsPlayer(Plates plate) => plate.PlayerPressingLeftMouseButton();
 
     private void ApplyToNeighbors(int x, int y,Action<Plates> method)
@@ -204,9 +205,22 @@ public sealed class PlatesGrid : MonoBehaviour
 
     private void SetWinInGame()
     {
-        InvokeGameOver();
+        InvokeWinInGame();
         OpenAllNumber();
-    }    
+    }
+
+    private void InvokeWinInGame()
+    {
+        SetGameOver();
+        WinInGame?.Invoke();
+    }
+
+    private void SetGameOver()
+    {
+        SetGameOverOnAllPlates();
+        StopAllCoroutines();
+        GameOver?.Invoke();
+    }
 
     private void SetGameOverOnAllPlates()
     {

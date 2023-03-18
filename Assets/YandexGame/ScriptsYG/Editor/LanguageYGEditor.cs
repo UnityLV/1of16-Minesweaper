@@ -307,8 +307,7 @@ namespace YG
 
         void TranslateButton()
         {
-            scr.processTranslateLabel = "";
-            scr.Translate(processTranslateLabel);
+            scr.processTranslateLabel = "";            
 
             if (!scr.componentTextField)
             {

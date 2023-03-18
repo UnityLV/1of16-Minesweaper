@@ -3007,9 +3007,30 @@ MonoBehaviour:
   _gameStartSound:
     _volume: 0.076
     <AudioClip>k__BackingField: {fileID: 8300000, guid: 83e6ea3c472aeeb4280a989dd2aff3d0, type: 3}
-  _gameOverSound:
-    _volume: 0.073
+  _loseInGameSounds:
+  - _volume: 0.343
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: b517d47f487304a46b558670a7d02342, type: 3}
+  - _volume: 0.316
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 22f794bbe985f1a45a37c2439e56e4a6, type: 3}
+  - _volume: 0.409
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 51bdb87dbcffbd241a54aaa531d75d12, type: 3}
+  - _volume: 0.21
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: ac079f7fc31a4af469941d4a7477a88f, type: 3}
+  - _volume: 0.323
     <AudioClip>k__BackingField: {fileID: 8300000, guid: ac1ac2a0538883845a1e7bde4978b574, type: 3}
+  _winInGameSounds:
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: f4a56846fefc8534380abbc509f8d9d9, type: 3}
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 4ee25f11125ff20428e00e1aaeffe36a, type: 3}
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 2408dce78376d0f43b560eef14aaed49, type: 3}
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 15f1c5ce6e755b54db15c2d1b92d59b2, type: 3}
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: c22ba544d8aada846a0751c880f5f01e, type: 3}
+  - _volume: 0.416
+    <AudioClip>k__BackingField: {fileID: 8300000, guid: 92ee30b3a4c723b45975a0af6321d61e, type: 3}
   _markRemoveSound:
     _volume: 1
     <AudioClip>k__BackingField: {fileID: 8300000, guid: 8b2f15d606449084dbe821addbaf7d34, type: 3}
